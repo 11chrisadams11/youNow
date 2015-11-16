@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+#header {
+  width: 100%;
+  background-color: #eeeeee;
+  padding-top: 40px; }
+
+#logo {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20%;
+  height: 20%;
+  background: url("../images/logo.png") center no-repeat;
+  background-size: contain; }
+
+#hello {
+  margin: 0 auto; }
+
+#settingsOkButton {
+  font-size: 20px;
+  color: #4b4b4b;
+  position: absolute;
+  top: 10px;
+  right: 10px; }
+
+#settingsOkButton:hover {
+  color: #2aabd2;
+  cursor: pointer; }
+
+/*# sourceMappingURL=style.css.map */

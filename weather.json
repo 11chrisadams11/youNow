@@ -1,0 +1,437 @@
+
+{
+  "response": {
+    "version":"0.1",
+    "termsofService":"http://www.wunderground.com/weather/api/d/terms.html",
+    "features": {
+      "conditions": 1
+    ,
+      "geolookup": 1
+    }
+  }
+,	"location": {
+  "type":"CITY",
+  "country":"US",
+  "country_iso3166":"US",
+  "country_name":"USA",
+  "state":"UT",
+  "city":"Salt Lake City",
+  "tz_short":"MST",
+  "tz_long":"America/Denver",
+  "lat":"40.780000",
+  "lon":"-111.730000",
+  "zip":"84108",
+  "magic":"1",
+  "wmo":"99999",
+  "l":"/q/zmw:84108.1.99999",
+  "requesturl":"US/UT/Salt_Lake_City.html",
+  "wuiurl":"http://www.wunderground.com/US/UT/Salt_Lake_City.html",
+  "nearby_weather_stations": {
+    "airport": {
+      "station": [
+        { "city":"Salt Lake City", "state":"UT", "country":"US", "icao":"KSLC", "lat":"40.77069092", "lon":"-111.96502686" }
+      ,{ "city":"Salt Lake City Municipal", "state":"UT", "country":"US", "icao":"KU42", "lat":"40.61999893", "lon":"-112.00000000" }
+      ,{ "city":"Ogden Hill AFB", "state":"UT", "country":"US", "icao":"KHIF", "lat":"41.12393951", "lon":"-111.97303772" }
+      ,{ "city":"Heber", "state":"UT", "country":"US", "icao":"K36U", "lat":"40.48194122", "lon":"-111.42888641" }
+      ]
+    }
+  ,
+    "pws": {
+      "station": [
+        {
+          "neighborhood":"Emigration Canyon Road",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL81",
+          "lat":40.776230,
+          "lon":-111.732201,
+          "distance_km":0,
+          "distance_mi":0
+        },
+        {
+          "neighborhood":"Emigration Oaks",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL63",
+          "lat":40.786110,
+          "lon":-111.738609,
+          "distance_km":0,
+          "distance_mi":0
+        },
+        {
+          "neighborhood":"Brigham Fork Canyon",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL98",
+          "lat":40.788666,
+          "lon":-111.733948,
+          "distance_km":1,
+          "distance_mi":0
+        },
+        {
+          "neighborhood":"Emigration Canyon",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL130",
+          "lat":40.771351,
+          "lon":-111.758919,
+          "distance_km":2,
+          "distance_mi":1
+        },
+        {
+          "neighborhood":"Emigration Place",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL89",
+          "lat":40.761917,
+          "lon":-111.773460,
+          "distance_km":4,
+          "distance_mi":2
+        },
+        {
+          "neighborhood":"MesoWest",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"MNHMU",
+          "lat":40.764305,
+          "lon":-111.822853,
+          "distance_km":8,
+          "distance_mi":4
+        },
+        {
+          "neighborhood":"Saint Marys Way",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL77",
+          "lat":40.742371,
+          "lon":-111.813087,
+          "distance_km":8,
+          "distance_mi":4
+        },
+        {
+          "neighborhood":"ARCADIA HEIGHTS",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL118",
+          "lat":40.729313,
+          "lon":-111.803291,
+          "distance_km":8,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"MesoWest",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"MMTMET",
+          "lat":40.766575,
+          "lon":-111.828209,
+          "distance_km":8,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"Indian Hills",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL125",
+          "lat":40.733540,
+          "lon":-111.814255,
+          "distance_km":8,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"Mich Ave",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL85",
+          "lat":40.747482,
+          "lon":-111.834961,
+          "distance_km":9,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"APRSWXNET",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"ME6393",
+          "lat":40.722172,
+          "lon":-111.817001,
+          "distance_km":9,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"Foothill Village",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL17",
+          "lat":40.730438,
+          "lon":-111.826698,
+          "distance_km":9,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"Dillworth",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL121",
+          "lat":40.729382,
+          "lon":-111.827858,
+          "distance_km":9,
+          "distance_mi":5
+        },
+        {
+          "neighborhood":"Yalecrest",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL131",
+          "lat":40.741463,
+          "lon":-111.837303,
+          "distance_km":10,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"MesoWest",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"MWBB",
+          "lat":40.766232,
+          "lon":-111.847549,
+          "distance_km":10,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"Mount Olympus",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL25",
+          "lat":40.692623,
+          "lon":-111.788475,
+          "distance_km":10,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"East Central",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL123",
+          "lat":40.768192,
+          "lon":-111.859352,
+          "distance_km":10,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"Sugarhouse",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL126",
+          "lat":40.727783,
+          "lon":-111.842773,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"East Millcreek Road",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL71",
+          "lat":40.694862,
+          "lon":-111.799484,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"Canyon Rim",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL109",
+          "lat":40.702179,
+          "lon":-111.813484,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"Salt Lake Avenues",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL54",
+          "lat":40.788116,
+          "lon":-111.864082,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"Avenues North Bench",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL1",
+          "lat":40.789047,
+          "lon":-111.864609,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"East Central",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL91",
+          "lat":40.742504,
+          "lon":-111.857811,
+          "distance_km":11,
+          "distance_mi":6
+        },
+        {
+          "neighborhood":"East Mill Creek",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL107",
+          "lat":40.692520,
+          "lon":-111.810074,
+          "distance_km":11,
+          "distance_mi":7
+        },
+        {
+          "neighborhood":"Middle Avenues",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL79",
+          "lat":40.778309,
+          "lon":-111.876175,
+          "distance_km":12,
+          "distance_mi":7
+        },
+        {
+          "neighborhood":"Greater Avenues",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"KUTSALTL90",
+          "lat":40.783352,
+          "lon":-111.877151,
+          "distance_km":12,
+          "distance_mi":7
+        },
+        {
+          "neighborhood":"APRSWXNET",
+          "city":"Salt Lake City",
+          "state":"UT",
+          "country":"US",
+          "id":"ME7885",
+          "lat":40.767029,
+          "lon":-111.886650,
+          "distance_km":13,
+          "distance_mi":7
+        }
+      ]
+    }
+  }
+}
+,	"current_observation": {
+  "image": {
+    "url":"http://icons.wxug.com/graphics/wu2/logo_130x80.png",
+    "title":"Weather Underground",
+    "link":"http://www.wunderground.com"
+  },
+  "display_location": {
+    "full":"Salt Lake City, UT",
+    "city":"Salt Lake City",
+    "state":"UT",
+    "state_name":"Utah",
+    "country":"US",
+    "country_iso3166":"US",
+    "zip":"84108",
+    "magic":"1",
+    "wmo":"99999",
+    "latitude":"40.780000",
+    "longitude":"-111.730000",
+    "elevation":"1606.00000000"
+  },
+  "observation_location": {
+    "full":"Emigration Oaks, Salt Lake City, Utah",
+    "city":"Emigration Oaks, Salt Lake City",
+    "state":"Utah",
+    "country":"US",
+    "country_iso3166":"US",
+    "latitude":"40.786110",
+    "longitude":"-111.738609",
+    "elevation":"6023 ft"
+  },
+  "estimated": {
+  },
+  "station_id":"KUTSALTL63",
+  "observation_time":"Last Updated on November 15, 2:35 PM MST",
+  "observation_time_rfc822":"Sun, 15 Nov 2015 14:35:33 -0700",
+  "observation_epoch":"1447623333",
+  "local_time_rfc822":"Sun, 15 Nov 2015 14:42:03 -0700",
+  "local_epoch":"1447623723",
+  "local_tz_short":"MST",
+  "local_tz_long":"America/Denver",
+  "local_tz_offset":"-0700",
+  "weather":"Clear",
+  "temperature_string":"54.3 F (12.4 C)",
+  "temp_f":54.3,
+  "temp_c":12.4,
+  "relative_humidity":"19%",
+  "wind_string":"From the South at 9.0 MPH Gusting to 12.0 MPH",
+  "wind_dir":"South",
+  "wind_degrees":180,
+  "wind_mph":9.0,
+  "wind_gust_mph":"12.0",
+  "wind_kph":14.5,
+  "wind_gust_kph":"19.3",
+  "pressure_mb":"1003",
+  "pressure_in":"29.62",
+  "pressure_trend":"-",
+  "dewpoint_string":"13 F (-11 C)",
+  "dewpoint_f":13,
+  "dewpoint_c":-11,
+  "heat_index_string":"NA",
+  "heat_index_f":"NA",
+  "heat_index_c":"NA",
+  "windchill_string":"NA",
+  "windchill_f":"NA",
+  "windchill_c":"NA",
+  "feelslike_string":"54.3 F (12.4 C)",
+  "feelslike_f":"54.3",
+  "feelslike_c":"12.4",
+  "visibility_mi":"10.0",
+  "visibility_km":"16.1",
+  "solarradiation":"394",
+  "UV":"1.5","precip_1hr_string":"0.00 in ( 0 mm)",
+  "precip_1hr_in":"0.00",
+  "precip_1hr_metric":" 0",
+  "precip_today_string":"0.00 in (0 mm)",
+  "precip_today_in":"0.00",
+  "precip_today_metric":"0",
+  "icon":"clear",
+  "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+  "forecast_url":"http://www.wunderground.com/US/UT/Salt_Lake_City.html",
+  "history_url":"http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=KUTSALTL63",
+  "ob_url":"http://www.wunderground.com/cgi-bin/findweather/getForecast?query=40.786110,-111.738609",
+  "nowcast":""
+}
+}
