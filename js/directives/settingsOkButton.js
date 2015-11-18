@@ -5,9 +5,10 @@ angular.module('App')
         link: function link(scope, element, attrs) {
             function load(){
                 if($state.includes('main')){
-                    document.getElementById('settingsOkButton').className = "glyphicon glyphicon-cog";
+                    $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
                 } else if($state.includes('settings')){
-                    document.getElementById('settingsOkButton').className = "glyphicon glyphicon-ok";
+                    var jum = $('#header').outerHeight();
+                    $('#settingsOkButton').addClass("glyphicon glyphicon-ok").css('top', jum-30);
                 }
             }
 

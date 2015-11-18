@@ -1,1 +1,7 @@
 <h2>Main</h2>
+<div id="mainBody">
+    <div class="card">
+        <img src="{{weather.icon}}">
+        <div ng-repeat="w in weather" ng-if="$index != 2">{{w}}</div>
+    </div>
+</div>

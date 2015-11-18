@@ -19,7 +19,6 @@ angular.module('App')
                     $interval.cancel(timeoutId);
                 });
 
-                // start the UI update process; save the timeoutId for canceling
                 timeoutId = $interval(function() {
                     updateTime(); // update DOM
                 }, 3000);
