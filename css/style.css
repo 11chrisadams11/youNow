@@ -8,23 +8,23 @@
   margin-top: 0; }
 
 #header {
+  position: relative;
   width: 100%;
-  background: #b8eeec no-repeat center;
+  background: #e3eeee no-repeat center;
   background-size: cover;
   text-align: center;
-  color: white;
+  color: grey;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
 
 #logo {
   display: inline-block;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 20%;
-  height: 20%;
+  top: 5px;
+  left: 5px;
+  width: 100px;
+  height: 50px;
   background: url("../images/logo.png") center no-repeat;
-  background-size: contain;
-  display: none; }
+  background-size: contain; }
 
 #hello {
   margin: 0 auto;
@@ -32,10 +32,9 @@
 
 #settingsOkButton {
   font-size: 20px;
-  color: #4b4b4b;
   position: absolute;
   top: 10px;
-  right: 10px; }
+  right: 20px; }
 
 #settingsOkButton:hover {
   color: #2aabd2;
@@ -46,7 +45,13 @@
   padding: 5px;
   text-align: center;
   background-color: white;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); }
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 10px;
+  min-width: 75px; }
+
+.card:hover {
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  cursor: pointer; }
 
 #mainBody, #settingsBody {
   padding: 10px; }
@@ -57,5 +62,8 @@ input {
   height: 30px;
   text-align: left;
   text-indent: 10px; }
+
+.glyphicon-ok {
+  color: greenyellow !important; }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,12 +1,10 @@
 angular.module('App')
-.controller('mainCtrl', function($rootScope, $scope, weatherService){
+.controller('mainCtrl', function($rootScope, $scope, weatherService, userService, $q){
 
     function getWeather(){
-        weatherService.getCurrentWeather('local').then(function(weather){
-            $scope.weather = weather[0];
-            $rootScope.weatherBG = weather[1]
-        })
+        $scope.weather = weatherService.getCurrentWeather();
     }
 
-    getWeather()
+        userService.getUser();
+    setTimeout(getWeather, 5000)
 });

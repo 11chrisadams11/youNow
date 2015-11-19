@@ -7,5 +7,4 @@ angular.module('App')
         $('#header').css('backgroundImage', 'url(' + imgUrl + ')');
     };
 
-    setTimeout(updateBG, 3000)
 });
