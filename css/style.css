@@ -53,6 +53,11 @@
   box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
   cursor: pointer; }
 
+.name {
+  background-color: #fbfbfb;
+  font-size: 15px;
+  font-weight: bold; }
+
 #mainBody, #settingsBody {
   padding: 10px; }
 
@@ -65,5 +70,18 @@ input {
 
 .glyphicon-ok {
   color: greenyellow !important; }
+
+.login {
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 150px;
+  text-align: center;
+  margin: 5px auto;
+  padding: 5px;
+  display: inline-block; }
+
+.login:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px aqua; }
 
 /*# sourceMappingURL=style.css.map */

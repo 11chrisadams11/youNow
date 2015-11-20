@@ -13,13 +13,12 @@
 <div class="mainContainer">
     <div id="header" ng-controller="headerCtrl">
         <div id="logo"></div>
-        <div id="hello"><h2>Hello {{user.name}}.</h2></div>
+        <div id="hello"><h2>Hello {{user.name.split(' ')[0]}}.</h2></div>
         <div current-time id="time"></div>
         <div id="settingsOkButton" settings-ok-button></div>
     </div>
     <div ui-view></div>
 </div>
-
 
 
 <script src="js/angular-ui-router.js"></script>
@@ -32,6 +31,7 @@
 <script src="js/services/weatherService.js"></script>
 <script src="js/main/mainCtrl.js"></script>
 <script src="js/settings/settingsCtrl.js"></script>
+<script src="js/login/loginCtrl.js"></script>
 <script src="js/directives/dateTime.js"></script>
 <script src="js/directives/settingsOkButton.js"></script>
 </body>

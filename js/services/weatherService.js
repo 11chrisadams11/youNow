@@ -3,38 +3,42 @@ angular.module('App')
         var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/';
 
         this.getCurrentWeather = function() {
-            var user = userService.getUserData();
-            var w = [];
+            return $q(function(resolve){
+                userService.getUserData().then(function(u){
+                    var user = u,
+                        w = [];
 
-            goGet('local').then(function (ww) {
-                w.push(ww)
-            });
-
-            for (var i in user.locations) {
-                (function (e) {
-                    console.log(user.locations[e]);
-                    if (user.locations.hasOwnProperty(e)) {
-                        if (user.locations[e] !== '') {
-                            goGet(user.locations[e]).then(function (ww) {
-                                w.push(ww)
-                            });
-                        }
-                    }
-                })(i)
-            }
-
-            function goGet(where) {
-                return $q(function (resolve) {
-                    getLocation(where).then(function (url) {
-                        getWeather(url).then(function (weather) {
-                            resolve(weather);
-                        })
+                    goGet('local', 'local').then(function (ww) {
+                        w.push(ww)
                     });
-                })
 
-            }
+                    for (var i in user.locations) {
+                        (function (e) {
+                            if (user.locations.hasOwnProperty(e)) {
+                                if (user.locations[e] !== '') {
+                                    goGet(user.locations[e], e).then(function (ww) {
+                                        w.push(ww)
+                                    });
+                                }
+                            }
+                        })(i)
+                    }
 
-            return w;
+                    function goGet(where, name) {
+                        return $q(function (resolve) {
+                            getLocation(where).then(function (url) {
+                                getWeather(url, name).then(function (weather) {
+                                    resolve(weather);
+                                })
+                            });
+                        })
+
+                    }
+
+                    resolve(w)
+                });
+            })
+
         };
 
         function getLocation(where) {
@@ -56,19 +60,19 @@ angular.module('App')
             })
         }
 
-        function getWeather(url){
+        function getWeather(url, name){
             return $http({
                 method: 'GET',
                 url: 'weather.json'
                 //url: url
             }).then(function(res){
                 var data = res.data.current_observation;
-                return {
+                return [{
                     location: data.display_location.city + ', ' + data.display_location.state,
-                    temp: data.temp_f,
+                    temp: data.temp_f + '°',
                     icon: data.icon_url,
                     weather: data.weather
-                }
+                }, name]
             })
         }
 
