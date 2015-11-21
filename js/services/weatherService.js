@@ -15,8 +15,9 @@ angular.module('App')
                     for (var i in user.locations) {
                         (function (e) {
                             if (user.locations.hasOwnProperty(e)) {
-                                if (user.locations[e] !== '') {
-                                    goGet(user.locations[e], e).then(function (ww) {
+                                if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
+                                    var zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-1];
+                                    goGet(zip, e).then(function (ww) {
                                         w.push(ww)
                                     });
                                 }

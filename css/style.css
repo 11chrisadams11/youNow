@@ -26,7 +26,10 @@
   background: url("../images/logo.png") center no-repeat;
   background-size: contain; }
 
-#hello {
+#logo:hover {
+  cursor: pointer; }
+
+.hello {
   margin: 0 auto;
   font-size: 30px; }
 
@@ -47,7 +50,7 @@
   background-color: white;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
   margin: 10px;
-  min-width: 75px; }
+  min-width: 130px; }
 
 .card:hover {
   box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
@@ -61,12 +64,14 @@
 #mainBody, #settingsBody {
   padding: 10px; }
 
-input {
+input[type="text"] {
   border: 1px solid grey;
   border-radius: 3px;
   height: 30px;
+  width: 300px;
   text-align: left;
-  text-indent: 10px; }
+  text-indent: 10px;
+  left: 200px; }
 
 .glyphicon-ok {
   color: greenyellow !important; }
@@ -83,5 +88,8 @@ input {
 .login:hover {
   cursor: pointer;
   box-shadow: 0 0 10px aqua; }
+
+.settingsGroups {
+  margin-top: 10px; }
 
 /*# sourceMappingURL=style.css.map */
