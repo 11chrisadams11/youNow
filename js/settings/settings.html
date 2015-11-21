@@ -1,10 +1,32 @@
 <h2>Settings</h2>
 
 <div id="settingsBody">
-    Display Name <input ng-model="user.name" type="text" placeholder="Display Name">
-    <div id="settingsLocations" class="settingsGroups">
-        <p>Home Address <input ng-autocomplete="user.locations.home.address" id="Autocomplete" type="text" placeholder="Home Address"> Get Weather Updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
-        <p>Work Address <input ng-autocomplete="user.locations.work.address" id="Autocomplete" type="text" placeholder="Work Address"> Get Weather Updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-        <div ng-if="user.locations.work.address">Hours</div>
+    <span class="title">Display Name:</span>
+    <div ng-if="edit.name">
+        <input ng-model="user.name" type="text" placeholder="Display Name">
     </div>
+    <div ng-if="!edit.name">
+        {{user.name}} <span class="glyphicon glyphicon-edit" ng-click="edit.name=true"></span>
+    </div>
+
+    <div id="settingsLocations" class="settingsGroups">
+        <span class="title">Home Address:</span>
+        <div ng-if="edit.home">
+            <input ng-model="user.locations.home.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.home">
+            <p>Get Weather Updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates" /></p>
+        </div>
+        <div ng-if="!edit.home">
+            {{user.locations.home.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.home=true"></span>
+            <p>Get Weather Updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
+        </div>
+        <span class="title">Work Address:</span>
+        <div ng-if="edit.work">
+            <input ng-model="user.locations.work.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.work">
+            <p>Get Weather Updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+        </div>
+        <div ng-if="!edit.work">
+            {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
+            <p>Get Weather Updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+            <div ng-if="user.locations.work.address">Hours</div>
+        </div>
 </div>

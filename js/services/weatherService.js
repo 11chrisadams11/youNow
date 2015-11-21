@@ -16,7 +16,11 @@ angular.module('App')
                         (function (e) {
                             if (user.locations.hasOwnProperty(e)) {
                                 if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
-                                    var zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-1];
+                                    if(user.locations[e].address.length === 5){
+                                        var zip = user.locations[e].address
+                                    } else {
+                                        var zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-2].replace(',', '');
+                                    }
                                     goGet(zip, e).then(function (ww) {
                                         w.push(ww)
                                     });
@@ -68,12 +72,15 @@ angular.module('App')
                 //url: url
             }).then(function(res){
                 var data = res.data.current_observation;
-                return [{
+                var o = {};
+                o = {
+                    name: name,
                     location: data.display_location.city + ', ' + data.display_location.state,
                     temp: data.temp_f + '°',
                     icon: data.icon_url,
                     weather: data.weather
-                }, name]
+                };
+                return o
             })
         }
 

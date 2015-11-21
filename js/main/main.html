@@ -1,7 +1,7 @@
 <div id="mainBody">
     <div class="card" ng-repeat="w in weather">
-        <div class="name">{{w[1] | capitalize}}</div>
-        <img ng-src="{{w[0].icon}}">
-        <div ng-repeat="q in w[0]" ng-if="$index != 2">{{q}}</div>
+        <div class="name">{{w.name | capitalize}}</div>
+        <img ng-src="{{w.icon}}">
+        <div ng-repeat="q in w" ng-if="$index != 3">{{q}}</div>
     </div>
 </div>

@@ -68,7 +68,7 @@ input[type="text"] {
   border: 1px solid grey;
   border-radius: 3px;
   height: 30px;
-  width: 300px;
+  width: 400px;
   text-align: left;
   text-indent: 10px;
   left: 200px; }
@@ -91,5 +91,15 @@ input[type="text"] {
 
 .settingsGroups {
   margin-top: 10px; }
+
+#settingsBody .glyphicon {
+  margin-left: 10px; }
+
+#settingsBody .glyphicon:hover {
+  cursor: pointer; }
+
+#settingsBody .title {
+  font-size: 20px;
+  font-weight: bold; }
 
 /*# sourceMappingURL=style.css.map */

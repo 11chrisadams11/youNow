@@ -40,6 +40,13 @@ angular.module('App')
                                     address: '',
                                     weatherUpdates: true
                                 }
+                            },
+                            data: {
+                                weather: {
+                                    home: '',
+                                    work: '',
+                                    local: ''
+                                }
                             }
                         };
                         ref.set(o, function () {
