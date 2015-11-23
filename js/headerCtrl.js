@@ -1,5 +1,5 @@
 angular.module('App')
-.controller('headerCtrl', function($rootScope, $scope, userService, $q, fb, $firebaseObject){
+.controller('headerCtrl', function($scope, userService, $q, fb, $firebaseObject){
     $scope.user = {};
 
     userService.getUserData().then(function(user){

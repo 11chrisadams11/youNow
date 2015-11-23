@@ -1,5 +1,5 @@
 angular.module('App')
-.controller('mainCtrl', function($rootScope, $scope, weatherService, userService, fb, $firebaseObject){
+.controller('mainCtrl', function($scope, weatherService, userService, fb, $firebaseObject){
 
     if(Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){

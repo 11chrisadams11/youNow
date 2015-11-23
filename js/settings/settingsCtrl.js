@@ -1,5 +1,5 @@
 angular.module('App')
-.controller('settingsCtrl', function($rootScope, $scope, userService){
+.controller('settingsCtrl', function($rootScope, $scope, userService, $state){
     $scope.edit = {
         home:$scope.user.locations.home.address === '',
         work:$scope.user.locations.work.address === '',
@@ -14,7 +14,7 @@ angular.module('App')
     });*/
 
 
-    $scope.settingsOK = function(){
+    $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
                     $scope.user.locations.home.address = $scope.details.home.formatted_address;
