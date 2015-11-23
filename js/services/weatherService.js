@@ -1,6 +1,11 @@
 angular.module('App')
-    .service('weatherService', function ($http, $q, userService) {
+    .service('weatherService', function ($http, $q, userService, fb, $firebaseAuth) {
         var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/';
+        var user = {
+            data:{
+                weather:{}
+            }
+        };
 
         this.getCurrentWeather = function() {
             return $q(function(resolve){
@@ -16,10 +21,11 @@ angular.module('App')
                         (function (e) {
                             if (user.locations.hasOwnProperty(e)) {
                                 if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
+                                    var zip;
                                     if(user.locations[e].address.length === 5){
-                                        var zip = user.locations[e].address
+                                        zip = user.locations[e].address
                                     } else {
-                                        var zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-2].replace(',', '');
+                                        zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-2].replace(',', '');
                                     }
                                     goGet(zip, e).then(function (ww) {
                                         w.push(ww)
@@ -40,7 +46,7 @@ angular.module('App')
 
                     }
 
-                    resolve(w)
+                    resolve([w, Date.now()])
                 });
             })
 
@@ -72,15 +78,30 @@ angular.module('App')
                 //url: url
             }).then(function(res){
                 var data = res.data.current_observation;
-                var o = {};
-                o = {
+                return {
                     name: name,
                     location: data.display_location.city + ', ' + data.display_location.state,
                     temp: data.temp_f + '°',
                     icon: data.icon_url,
                     weather: data.weather
                 };
-                return o
+            })
+        }
+
+        this.getWeatherData = function() {
+            return $q(function (resolve) {
+                if (Object.keys(user.data.weather).length === 0) {
+                    authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
+                    if (authObj.$getAuth()) {
+                        var provider = authObj.$getAuth().provider;
+                        var id = (authObj.$getAuth()[provider].id);
+                        authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id + '/data'));
+                        resolve(authObj)
+                    }
+                } else {
+                    resolve(user.data)
+                }
+
             })
         }
 

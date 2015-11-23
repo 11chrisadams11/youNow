@@ -1,5 +1,6 @@
 <div id="mainBody">
-    <div class="card" ng-repeat="w in weather">
+    Updated: {{weather[1] | date}}
+    <div class="card" ng-repeat="w in weather[0]">
         <div class="name">{{w.name | capitalize}}</div>
         <img ng-src="{{w.icon}}">
         <div ng-repeat="q in w" ng-if="$index != 3">{{q}}</div>

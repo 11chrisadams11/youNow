@@ -2,6 +2,7 @@ angular.module('App')
 .controller('headerCtrl', function($rootScope, $scope, userService, $q, fb, $firebaseObject){
     userService.getUserData().then(function(user){
         $rootScope.user = user;
+        console.log($rootScope.user);
         var ref = new Firebase(fb.url + '/user/' + $rootScope.user.$id);
         var obj = $firebaseObject(ref);
         obj.$bindTo($rootScope, 'user').then(function(unbind){

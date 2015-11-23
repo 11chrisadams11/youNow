@@ -67,10 +67,9 @@ angular.module('App')
             return $q(function (resolve) {
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
                 if (authObj.$getAuth()) {
-                    authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
                     var provider = authObj.$getAuth().provider;
                     var id = (authObj.$getAuth()[provider].id);
-
+                    authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
                     getUser(id, '').then(function (u) {
                         resolve(u)
                     })
