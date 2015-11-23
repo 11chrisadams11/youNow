@@ -9,7 +9,7 @@ angular.module('App')
 
         this.getUserData = function () {
             return $q(function (resolve) {
-                if (Object.keys(user).length === 0) {
+                if (Object.keys(user).length === 0) { //If user var is empty, get logged in info
                     getLoggedInUser().then(function (u) {
                         user = u;
                         resolve(user)
@@ -20,16 +20,16 @@ angular.module('App')
             })
         };
 
-        function getUser(id, name) {
+        function checkIfUserExistsInDB(id, name) {
             return $q(function (resolve) {
                 var ref = new Firebase(fb.url + 'user/' + id);
                 ref.once("value", function (snapshot) {
-                    var exists = (snapshot.val() !== null);
+                    var exists = (snapshot.val() !== null); //if user id in DB
                     if (exists) {
                         var d = $firebaseObject(ref);
                         resolve(d)
                     } else {
-                        var o = {
+                        var o = { // create empty user if not in DB
                             name: name,
                             locations: {
                                 home: {
@@ -69,8 +69,9 @@ angular.module('App')
                 if (authObj.$getAuth()) {
                     var provider = authObj.$getAuth().provider;
                     var id = (authObj.$getAuth()[provider].id);
-                    authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
-                    getUser(id, '').then(function (u) {
+                    var name = (authObj.$getAuth()[provider].displayName);
+
+                    checkIfUserExistsInDB(id, name).then(function (u) {
                         resolve(u)
                     })
                 }
@@ -83,7 +84,7 @@ angular.module('App')
                 var id = (authData[authData.provider].id);
                 var name = (authData[authData.provider].displayName);
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
-                getUser(id, name).then(function (u) {
+                checkIfUserExistsInDB(id, name).then(function (u) {
                     user = u;
                     $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
                     $state.go('main')

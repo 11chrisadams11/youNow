@@ -1,66 +1,69 @@
 angular.module('App')
-    .service('weatherService', function ($http, $q, userService, fb, $firebaseAuth) {
+    .service('weatherService', function ($http, $q, userService, fb, $firebaseAuth, $firebaseObject) {
         var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/';
         var user = {
-            data:{
-                weather:{}
+            data: {
+                weather: {}
             }
         };
 
-        this.getCurrentWeather = function() {
-            return $q(function(resolve){
-                userService.getUserData().then(function(u){
+        function getCurrentWeather() {
+            return $q(function (resolve) {
+                userService.getUserData().then(function (u) {
                     var user = u,
-                        w = [];
+                        w = {};
 
-                    goGet('local', 'local').then(function (ww) {
-                        w.push(ww)
-                    });
-
-                    for (var i in user.locations) {
-                        (function (e) {
-                            if (user.locations.hasOwnProperty(e)) {
-                                if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
-                                    var zip;
-                                    if(user.locations[e].address.length === 5){
-                                        zip = user.locations[e].address
-                                    } else {
-                                        zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length-2].replace(',', '');
+                    goGet('local', 'local')
+                        .then(function (ww) {
+                            w[ww[0]] = ww[1]
+                        }).then(function () {
+                        for (var i in user.locations) {
+                            (function (e) {
+                                if (user.locations.hasOwnProperty(e)) {
+                                    if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
+                                        var zip;
+                                        if (user.locations[e].address.length === 5) {
+                                            zip = user.locations[e].address
+                                        } else {
+                                            zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length - 2].replace(',', '');
+                                        }
+                                        goGet(zip, e).then(function (ww) {
+                                            w[ww[0]] = ww[1]
+                                        });
                                     }
-                                    goGet(zip, e).then(function (ww) {
-                                        w.push(ww)
-                                    });
                                 }
-                            }
-                        })(i)
-                    }
+                            })(i)
+                        }
+                    }).then(function () {
+                        w.updated = Date.now();
+                        user.data.weather = w;
+                        resolve(w)
+                    });
+                });
+            })
+        }
 
-                    function goGet(where, name) {
-                        return $q(function (resolve) {
-                            getLocation(where).then(function (url) {
-                                getWeather(url, name).then(function (weather) {
-                                    resolve(weather);
-                                })
-                            });
-                        })
 
-                    }
-
-                    resolve([w, Date.now()])
+        function goGet(where, name) {
+            return $q(function (resolve) {
+                getLocation(where).then(function (url) {
+                    getWeather(url, name).then(function (weather) {
+                        resolve(weather);
+                    })
                 });
             })
 
-        };
+        }
 
         function getLocation(where) {
-            return $q(function(resolve){
+            return $q(function (resolve) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     resolve({
                         lat: position.coords.latitude,
                         lon: position.coords.longitude
                     })
                 });
-            }).then(function(res){
+            }).then(function (res) {
                 var url2;
                 if (where === 'local') {
                     url2 = url + 'geolookup/q/' + res.lat + ',' + res.lon + '.json'
@@ -71,38 +74,58 @@ angular.module('App')
             })
         }
 
-        function getWeather(url, name){
+        function getWeather(url, name) {
             return $http({
                 method: 'GET',
                 url: 'weather.json'
                 //url: url
-            }).then(function(res){
+            }).then(function (res) {
                 var data = res.data.current_observation;
-                return {
-                    name: name,
+                return [name, {
                     location: data.display_location.city + ', ' + data.display_location.state,
                     temp: data.temp_f + '°',
                     icon: data.icon_url,
                     weather: data.weather
-                };
+                }];
             })
         }
 
-        this.getWeatherData = function() {
+        this.getWeatherData = function () {
             return $q(function (resolve) {
                 if (Object.keys(user.data.weather).length === 0) {
-                    authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
+                    var rel = new Firebase(fb.url + 'user/');
+                    authObj = $firebaseAuth(rel);
                     if (authObj.$getAuth()) {
                         var provider = authObj.$getAuth().provider;
                         var id = (authObj.$getAuth()[provider].id);
-                        authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id + '/data'));
-                        resolve(authObj)
+                        obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/weather'));
+                        obj.$loaded(function(){
+                            if ((Date.now() - obj > 600000) || obj === undefined) {
+                                console.log('new weather');
+                                getCurrentWeather().then(function(w){
+                                    user.data.weather = w;
+                                    resolve(w)
+                                })
+                            } else {
+                                console.log('same old weather');
+                                user.data.weather = obj;
+                                resolve(obj)
+                            }
+                        });
                     }
                 } else {
-                    resolve(user.data)
+                    if ((Date.now() - user.data.weather.updated > 600000) || user.data.weather.updated === undefined) {
+                        console.log('new weather');
+                        getCurrentWeather().then(function(w){
+                            user.data.weather = w;
+                            resolve(w)
+                        })
+                    } else {
+                        console.log('same old weather');
+                        resolve(user.data.weather)
+                    }
                 }
 
             })
         }
-
     });

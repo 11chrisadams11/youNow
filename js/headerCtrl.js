@@ -1,22 +1,22 @@
 angular.module('App')
 .controller('headerCtrl', function($rootScope, $scope, userService, $q, fb, $firebaseObject){
+    $scope.user = {};
+
     userService.getUserData().then(function(user){
-        $rootScope.user = user;
-        console.log($rootScope.user);
-        var ref = new Firebase(fb.url + '/user/' + $rootScope.user.$id);
+        $scope.user = user;
+        var ref = new Firebase(fb.url + '/user/' + $scope.user.$id);
         var obj = $firebaseObject(ref);
-        obj.$bindTo($rootScope, 'user').then(function(unbind){
-            $rootScope.unbind = unbind
-        });
+        obj.$loaded(function(){
+            obj.$bindTo($scope, 'user').then(function(unbind){
+                $scope.unbind = unbind
+            });
+        })
     });
 
     function unbind(){
         return $q(function(res){
-            if(typeof $rootScope.unbind === 'function'){
-                $rootScope.unbind();
-            }
-            if(typeof $rootScope.unbind2 === 'function'){
-                $rootScope.unbind2();
+            if(typeof $scope.unbind === 'function'){
+                $scope.unbind();
             }
             res(true)
         })
@@ -24,7 +24,7 @@ angular.module('App')
 
     $scope.logout = function(){
         unbind().then(function(){
-            $rootScope.user = {};
+            $scope.user = {};
             $('#settingsOkButton').removeClass("glyphicon glyphicon-cog glyphicon-ok");
             userService.logout()
         });

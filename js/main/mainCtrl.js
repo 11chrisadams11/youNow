@@ -1,26 +1,19 @@
 angular.module('App')
 .controller('mainCtrl', function($rootScope, $scope, weatherService, userService, fb, $firebaseObject){
 
-    userService.getUserData().then(function(user){
-        $rootScope.user = user;
-    });
-
-    function getWeather(){
-        weatherService.getWeatherData().then(function(data){
-            $rootScope.user.data.weather = data;
-            //getWeather();
-        }).then(function(){
-            console.log($rootScope.user.data.weather[1]);
-            weatherService.getCurrentWeather($rootScope.user.data.weather[1]).then(function(w){
-                //$rootScope.user.data.weather = w;
-                $scope.weather = w
-            });
-        })
+    if(Object.keys($scope.user).length === 0){
+        userService.getUserData().then(function(user){
+            $scope.user = user;
+        });
     }
 
-    //$rootScope.user = userService.getUserData();
-    setTimeout(function(){getWeather()}, 1000);
-    setTimeout(function(){$rootScope.user.data.weather = $scope.weather; console.log($rootScope.user.data, $scope.weather)}, 2000);
+    function getWeather() {
+        weatherService.getWeatherData()
+            .then(function (data) {
+                $scope.user.data.weather = data;
+            });
+    }
 
-    //$scope.user = userService.getLoggedInUser();
+
+    setTimeout(function(){getWeather()}, 1000);
 });
