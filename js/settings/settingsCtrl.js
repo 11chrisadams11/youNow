@@ -13,7 +13,7 @@ angular.module('App')
        $rootScope.unbind = unbind
     });*/
 
-
+    //todo: reset weather update time after settings change
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
