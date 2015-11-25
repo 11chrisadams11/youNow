@@ -29,4 +29,5 @@ angular.module('App')
             userService.logout()
         });
     }
+
 });

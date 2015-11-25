@@ -16,4 +16,8 @@ angular.module('App')
 
 
     setTimeout(function(){getWeather()}, 1000);
+
+    $scope.fullWeather = function(w, $event){
+        $($event.target).html($scope.user.data.weather[w].full)
+    }
 });

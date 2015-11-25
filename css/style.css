@@ -43,6 +43,13 @@
   color: #2aabd2;
   cursor: pointer; }
 
+.category {
+  border: 1px solid #d0d0d0;
+  display: inline-block; }
+
+.category > h3 {
+  margin-left: 5px; }
+
 .card {
   display: inline-block;
   padding: 5px;
@@ -101,5 +108,9 @@ input[type="text"] {
 #settingsBody .title {
   font-size: 20px;
   font-weight: bold; }
+
+.fullSize {
+  width: 300px;
+  height: 300px; }
 
 /*# sourceMappingURL=style.css.map */

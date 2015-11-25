@@ -1,10 +1,23 @@
 angular.module('App')
 .controller('settingsCtrl', function($rootScope, $scope, userService, $state){
-    $scope.edit = {
-        home:$scope.user.locations.home.address === '',
-        work:$scope.user.locations.work.address === '',
-        name:$scope.user.name === ''
-    };
+
+    if(Object.keys($scope.user).length === 0){
+        userService.getUserData().then(function(user){
+            $scope.user = user;
+            $scope.edit = {
+                home:$scope.user.locations.home.address === '',
+                work:$scope.user.locations.work.address === '',
+                name:$scope.user.name === ''
+            };
+        });
+    } else {
+        $scope.edit = {
+            home:$scope.user.locations.home.address === '',
+            work:$scope.user.locations.work.address === '',
+            name:$scope.user.name === ''
+        };
+    }
+
     $scope.details = {home:'', work:''};
 
     /*var ref = new Firebase(fb.url + '/user/' + $rootScope.user.$id);
@@ -13,22 +26,21 @@ angular.module('App')
        $rootScope.unbind = unbind
     });*/
 
-    //todo: reset weather update time after settings change
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
-                    $scope.user.locations.home.address = $scope.details.home.formatted_address;
-                    $scope.edit.home = false
+                $scope.user.locations.home.address = $scope.details.home.formatted_address;
+                $scope.edit.home = false;
+                $scope.user.data.weather.updated = 0
             } else if (!$scope.edit.home || $scope.user.locations.home.address !== '') {
             } else {
                 $scope.user.locations.home.address = ''
             }
 
-            if($scope.details.work.formatted_address !== undefined){
-                if($scope.edit.work) {
-                    $scope.user.locations.work.address = $scope.details.work.formatted_address;
-                    $scope.edit.work = false
-                }
+            if($scope.details.work.formatted_address !== undefined && $scope.edit.work){
+                $scope.user.locations.work.address = $scope.details.work.formatted_address;
+                $scope.edit.work = false
+                $scope.user.data.weather.updated = 0
             } else if (!$scope.edit.work || $scope.user.locations.home.address !== '') {
             } else {
                 $scope.user.locations.work.address = ''

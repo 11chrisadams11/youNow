@@ -43,10 +43,25 @@ angular.module('App')
                             },
                             data: {
                                 weather: {
-                                    home: '',
-                                    work: '',
-                                    local: ''
+                                    home: {
+                                        icon: '',
+                                        quick: '',
+                                        full: ''
+                                    },
+                                    work: {
+                                        icon: '',
+                                        quick: '',
+                                        full: ''
+                                    },
+                                    local: {
+                                        icon: '',
+                                        quick: '',
+                                        full: ''
+                                    }
                                 }
+                            },
+                            settings: {
+                                news: ''
                             }
                         };
                         ref.set(o, function () {

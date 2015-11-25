@@ -1,7 +1,7 @@
 <div id="mainBody">
-    <div class="card" ng-repeat="(k,w) in user.data.weather" ng-if="k !=='updated'">
-        <div class="name">{{k | capitalize}}</div>
-        <img ng-src="{{w.icon}}">
-        <div ng-repeat="q in w" ng-if="q.indexOf('http') === -1">{{q}}</div>
+    <div class="category" ng-repeat="(sk,sv) in user.data.categories">
+        <h3>{{sk | capitalize}}</h3>
+        {{user.data[sk].quick}}
+        <div card ng-repeat="(k,w) in user.data[sk]"></div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 angular.module('App')
     .service('weatherService', function ($http, $q, userService, fb, $firebaseAuth, $firebaseObject) {
-        var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/';
+        var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/forecast10day/';
         var user = {
             data: {
                 weather: {}
@@ -15,7 +15,7 @@ angular.module('App')
 
                     goGet('local', 'local')
                         .then(function (ww) {
-                            w[ww[0]] = ww[1]
+                            w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
                         }).then(function () {
                         for (var i in user.locations) {
                             (function (e) {
@@ -28,7 +28,7 @@ angular.module('App')
                                             zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length - 2].replace(',', '');
                                         }
                                         goGet(zip, e).then(function (ww) {
-                                            w[ww[0]] = ww[1]
+                                            w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
                                         });
                                     }
                                 }
@@ -77,16 +77,31 @@ angular.module('App')
         function getWeather(url, name) {
             return $http({
                 method: 'GET',
-                url: 'weather.json'
-                //url: url
+                //url: 'weather.json'
+                url: url
             }).then(function (res) {
-                var data = res.data.current_observation;
+                var curr = res.data.current_observation;
+                var fore = res.data.forecast;
+                var o1 = [];
+                var o2 = [];
+                for(var i = 1; i<6; i++){
+                    o1.push(fore.simpleforecast.forecastday[i].high.fahrenheit);
+                    o2.push(fore.simpleforecast.forecastday[i].icon_url);
+                }
+
+
                 return [name, {
-                    location: data.display_location.city + ', ' + data.display_location.state,
-                    temp: data.temp_f + '°',
-                    icon: data.icon_url,
-                    weather: data.weather
-                }];
+                    location: curr.display_location.city + ', ' + curr.display_location.state,
+                    temp: curr.temp_f + '°',
+                    weather: curr.weather
+                },
+                {
+                    location: curr.display_location.city + ', ' + curr.display_location.state,
+                    temp: curr.temp_f + '°',
+                    weather: curr.weather,
+                    forecastTemp: o1,
+                    forecastIcon: o2
+                }, curr.icon_url,];
             })
         }
 
