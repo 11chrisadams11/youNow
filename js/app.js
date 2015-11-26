@@ -1,4 +1,4 @@
-angular.module('App', ['ui.router', 'firebase', 'ngAutocomplete'])
+angular.module('App', ['ui.router', 'firebase', 'ngAutocomplete', 'ngAnimate'])
 .constant('fb', {
     url: 'https://younow.firebaseio.com/'
 })

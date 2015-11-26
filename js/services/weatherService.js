@@ -80,15 +80,18 @@ angular.module('App')
                 //url: 'weather.json'
                 url: url
             }).then(function (res) {
-                var curr = res.data.current_observation;
-                var fore = res.data.forecast;
-                var o1 = [];
-                var o2 = [];
+                var curr = res.data.current_observation,
+                    fore = res.data.forecast,
+                    tempHigh = [],
+                    icon = [],
+                    day = [],
+                    tempLow = [];
                 for(var i = 1; i<6; i++){
-                    o1.push(fore.simpleforecast.forecastday[i].high.fahrenheit);
-                    o2.push(fore.simpleforecast.forecastday[i].icon_url);
+                    tempHigh.push(fore.simpleforecast.forecastday[i].high.fahrenheit);
+                    tempLow.push(fore.simpleforecast.forecastday[i].low.fahrenheit);
+                    icon.push(fore.simpleforecast.forecastday[i].icon_url);
+                    day.push(fore.simpleforecast.forecastday[i].date.weekday_short);
                 }
-
 
                 return [name, {
                     location: curr.display_location.city + ', ' + curr.display_location.state,
@@ -99,9 +102,11 @@ angular.module('App')
                     location: curr.display_location.city + ', ' + curr.display_location.state,
                     temp: curr.temp_f + '°',
                     weather: curr.weather,
-                    forecastTemp: o1,
-                    forecastIcon: o2
-                }, curr.icon_url,];
+                    forecastTemp: tempHigh,
+                    forecastTempLow: tempLow,
+                    forecastIcon: icon,
+                    forecastDay: day
+                }, curr.icon_url];
             })
         }
 

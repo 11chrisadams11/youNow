@@ -1,6 +1,7 @@
 angular.module('App')
 .controller('headerCtrl', function($scope, userService, $q, fb, $firebaseObject){
     $scope.user = {};
+    $scope.updTime = 0;
 
     userService.getUserData().then(function(user){
         $scope.user = user;

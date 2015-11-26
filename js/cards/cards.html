@@ -1,5 +1,17 @@
-<div class="card" ng-if="k !=='updated'">
+<div class="card" ng-if="k !=='updated'" ng-init="clck=false" ng-click="clck = !clck" >
     <div class="name">{{k | capitalize}}</div>
-    <img ng-src="{{w.icon}}">
-    <div ng-repeat="q in w.quick" ng-if="q.indexOf('http') === -1">{{q}}</div>
+        <div class="weatherText">
+            <h3>{{w.quick.temp}} in {{w.quick.location}}</h3>
+            {{w.quick.weather}}
+        </div>
+    <img ng-src="{{w.icon}}" class="weatherIcon">
+    <div class="fullWeather" ng-show="clck">
+        <hr>
+        <div ng-repeat="fw in [0,1,2,3,4]" class="fWD">
+            <div  class="bold">{{w.full.forecastDay[fw]}}</div>
+            <div class="forecastIcons"><img ng-src="{{w.full.forecastIcon[fw]}}"></div>
+            <div class="bold">{{w.full.forecastTemp[fw]}}°</div>
+            <div>{{w.full.forecastTempLow[fw]}}°</div>
+        </div>
+    </div>
 </div>

@@ -2,6 +2,6 @@
     <div class="category" ng-repeat="(sk,sv) in user.data.categories">
         <h3>{{sk | capitalize}}</h3>
         {{user.data[sk].quick}}
-        <div card ng-repeat="(k,w) in user.data[sk]"></div>
+        <div class="cardHolder" card ng-repeat="(k,w) in user.data[sk]"></div>
     </div>
 </div>

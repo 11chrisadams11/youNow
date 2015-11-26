@@ -14,8 +14,8 @@
   background: #e3eeee no-repeat center
   background-size: cover
   text-align: center
-  color: grey
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5)
+  color: #3b3b3b
+  //text-shadow: 1px 1px 3px rgba(0,0,0,0.5)
 
 #logo
   display: inline-block
@@ -50,18 +50,20 @@
   border: 1px solid #d0d0d0
   display: inline-block
 
+.cardHolder
+  vertical-align: top
+
 .category>h3
   margin-left: 5px
 
 .card
-  //border: 1px solid black
   display: inline-block
   padding: 5px
   text-align: center
   background-color: white
   box-shadow: 2px 2px 8px rgba(0,0,0,0.5)
   margin: 10px
-  min-width: 130px
+  min-width: 290px
 
 .card:hover
   box-shadow: 3px 3px 12px rgba(0,0,0,0.5)
@@ -71,6 +73,7 @@
   background-color: #fbfbfb
   font-size: 15px
   font-weight: bold
+  margin-bottom: 10px
 
 #mainBody, #settingsBody
   padding: 10px
@@ -113,7 +116,35 @@ input[type="text"]
   font-size: 20px
   font-weight: bold
 
+.weatherText
+  display: inline-block
+  text-align: left
 
-.fullSize
-  width: 300px
-  height: 300px
+.weatherText>h3
+  font-weight: 500
+
+.weatherIcon
+  float: right
+  margin-right: 5px
+  margin-left: 5px
+
+.fWD
+  display: inline-block
+
+.bold
+  font-weight: 500
+
+.forecastIcons
+  margin: auto 10px
+
+.forecastIcons>img
+  width: 35px
+
+.fullWeather.ng-hide-add, .fullWeather.ng-hide-remove
+  transition: all linear 0.5s
+
+.fullWeather.ng-hide
+  line-height: 0
+  opacity: 0
+  padding: 0 0
+
