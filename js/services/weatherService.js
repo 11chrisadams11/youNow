@@ -15,8 +15,10 @@ angular.module('App')
 
                     goGet('local', 'local')
                         .then(function (ww) {
+                            console.log('get local')
                             w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
-                        }).then(function () {
+                        })
+                        .then(function () {
                         for (var i in user.locations) {
                             (function (e) {
                                 if (user.locations.hasOwnProperty(e)) {
@@ -28,13 +30,15 @@ angular.module('App')
                                             zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length - 2].replace(',', '');
                                         }
                                         goGet(zip, e).then(function (ww) {
+                                            console.log('get ' + e)
                                             w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
                                         });
                                     }
                                 }
                             })(i)
                         }
-                    }).then(function () {
+                    })
+                    .then(function () {
                         w.updated = Date.now();
                         user.data.weather = w;
                         resolve(w)

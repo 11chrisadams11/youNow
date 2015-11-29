@@ -16,8 +16,10 @@ angular.module('App')
                 if(parseInt(upd.toString().slice(0,upd.toString().length-4)) !== $scope.updTime){
                     $scope.updTime = parseInt(upd.toString().slice(0,upd.toString().length-4));
                     clearTimeout($scope.update);
-                    $scope.update = setTimeout(getWeather, ((Date.now() - $scope.user.data.weather.updated)+600000));
-                    console.log('Get new weather in ' + ((Date.now() - $scope.user.data.weather.updated)+600000))
+                    $scope.update = setTimeout(getWeather, ((Date.now() - $scope.user.data.weather.updated)+600000)/60000);
+                    console.log('Get new weather in ' + parseInt(((Date.now() - $scope.user.data.weather.updated)+600000)/60000))
+                } else {
+
                 }
             // todo: Figure out how to update in 10 minutes
             });
