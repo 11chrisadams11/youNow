@@ -20,12 +20,6 @@ angular.module('App')
 
     $scope.details = {home:'', work:''};
 
-    /*var ref = new Firebase(fb.url + '/user/' + $rootScope.user.$id);
-    var obj = $firebaseObject(ref);
-    obj.$bindTo($rootScope, 'user').then(function(unbind){
-       $rootScope.unbind = unbind
-    });*/
-
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
@@ -44,7 +38,8 @@ angular.module('App')
                 $scope.user.locations.work.address = ''
             }
             userService.setUserData($scope.user);
-            $scope.user.data.weather.updated = 0
+            //$scope.user.data.weather.updated = 0
+            $scope.user.data.news.updated = 0
         }
     }
 });

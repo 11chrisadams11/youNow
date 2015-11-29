@@ -31,13 +31,30 @@
         <div ng-if="!edit.work">
             {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
             <p>Get weather ppdates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-            <p>Get travel times <input type="checkbox" ng-model="user.locations.work.travelTimes"></p>
-            <div ng-if="user.locations.work.travelTimes">Work Hours</div>
+            <!--<p>Get travel times <input type="checkbox" ng-model="user.locations.work.travelTimes"></p>-->
+            <!--<div ng-if="user.locations.work.travelTimes">Work Hours</div>-->
         </div>
     </div>
 
     <div id="settingsNews">
         <span class="title">News:</span>
         <p>Get news updates <input type="checkbox" ng-model="user.settings.news.updates"></p>
+        <div id="newsCategories" ng-if="user.settings.news.updates">
+            <p>Updates for:</p>
+            <div>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.home"> U.S.</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.world"> World</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.politics"> Politics</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.business"> Business</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.opinion"> Opinion</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.technology"> Technology</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.health"> Health</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.sports"> Sports</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.arts"> Arts</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.fashion"> Fashion</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.dining"> Dining</p>
+                <p><input type="checkbox" ng-model="user.settings.news.categories.travel"> Travel</p>
+            </div>
+        </div>
     </div>
 </div>

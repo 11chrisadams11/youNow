@@ -58,7 +58,8 @@ angular.module('App')
                                         quick: '',
                                         full: ''
                                     }
-                                }
+                                },
+                                news: {}
                             },
                             settings: {
                                 news: ''

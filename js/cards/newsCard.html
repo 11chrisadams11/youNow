@@ -1,0 +1,12 @@
+<div class="card" ng-if="k !=='updated'" ng-init="clck=false" ng-click="clck = !clck" >
+    <div class="name">{{k | capitalize}}</div>
+    <div class="newsMain">
+        <div class="newsTitle">{{w.title}}</div>
+        <div class="newsImage" data-size="75"><img ng-src="{{w.image}}"></div>
+    </div>
+    <div class="newsText">
+        <hr>
+        {{w.text}}
+        <div class="newsLink"><a target="_blank" ng-href="{{w.url}}">Link</a></div>
+    </div>
+</div>

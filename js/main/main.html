@@ -1,7 +1,12 @@
 <div id="mainBody">
-    <div class="category" ng-repeat="(sk,sv) in user.data.categories">
+    <div class="category" ng-repeat="(sk,sv) in user.data.categories | orderBy: '-$index'" ng-if="user.settings[sk].updates">
         <h3>{{sk | capitalize}}</h3>
         {{user.data[sk].quick}}
-        <div class="cardHolder" card ng-repeat="(k,w) in user.data[sk]"></div>
+        <div ng-if="sk === 'weather'">
+            <div class="cardHolder" weather-card ng-repeat="(k,w) in user.data[sk]"></div>
+        </div>
+        <div ng-if="sk === 'news'">
+            <div class="cardHolder" news-card ng-repeat="(k,w) in user.data[sk]"></div>
+        </div>
     </div>
 </div>

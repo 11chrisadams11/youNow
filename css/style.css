@@ -42,46 +42,8 @@
   color: #2aabd2;
   cursor: pointer; }
 
-.category {
-  border: 1px solid #d0d0d0;
-  display: inline-block; }
-
-.cardHolder {
-  vertical-align: top; }
-
-.category > h3 {
-  margin-left: 5px; }
-
-.card {
-  display: inline-block;
-  padding: 5px;
-  text-align: center;
-  background-color: white;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  margin: 10px;
-  min-width: 290px; }
-
-.card:hover {
-  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
-  cursor: pointer; }
-
-.name {
-  background-color: #fbfbfb;
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 10px; }
-
 #mainBody, #settingsBody {
   padding: 10px; }
-
-input[type="text"] {
-  border: 1px solid grey;
-  border-radius: 3px;
-  height: 30px;
-  width: 400px;
-  text-align: left;
-  text-indent: 10px;
-  left: 200px; }
 
 .glyphicon-ok {
   color: greenyellow !important; }
@@ -99,6 +61,15 @@ input[type="text"] {
   cursor: pointer;
   box-shadow: 0 0 10px aqua; }
 
+input[type="text"] {
+  border: 1px solid grey;
+  border-radius: 3px;
+  height: 30px;
+  width: 400px;
+  text-align: left;
+  text-indent: 10px;
+  left: 200px; }
+
 .settingsGroups {
   margin-top: 10px; }
 
@@ -112,9 +83,41 @@ input[type="text"] {
   font-size: 20px;
   font-weight: bold; }
 
-.weatherText {
+#newsCategories > div {
+  margin-left: 20px; }
+
+.category {
   display: inline-block;
-  text-align: left; }
+  margin-top: 10px; }
+
+.cardHolder {
+  vertical-align: top; }
+
+.category > h3 {
+  margin-left: 5px; }
+
+.card {
+  position: relative;
+  display: inline-block;
+  padding: 5px;
+  background-color: white;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 10px;
+  min-width: 290px;
+  max-width: 290px; }
+
+.card:hover {
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  cursor: pointer; }
+
+.name {
+  background-color: #fbfbfb;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px; }
+
+.weatherText, .newsTitle {
+  display: inline-block; }
 
 .weatherText > h3 {
   font-weight: 500; }
@@ -143,5 +146,33 @@ input[type="text"] {
   line-height: 0;
   opacity: 0;
   padding: 0 0; }
+
+.fullWeather {
+  text-align: center; }
+
+.newsText {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 0;
+  display: none; }
+
+.newsImage > img {
+  height: 75px; }
+
+.newsMain {
+  vertical-align: top; }
+
+.newsTitle {
+  vertical-align: top;
+  width: 53%; }
+
+.newsImage {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 15px;
+  position: relative; }
+
+.newsLink {
+  margin-top: 10px; }
 
 /*# sourceMappingURL=style.css.map */

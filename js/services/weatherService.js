@@ -11,34 +11,39 @@ angular.module('App')
             return $q(function (resolve) {
                 userService.getUserData().then(function (u) {
                     var user = u,
-                        w = {};
+                        w = {},
+                        promises = [];
 
-                    goGet('local', 'local')
-                        .then(function (ww) {
-                            console.log('get local')
-                            w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
-                        })
-                        .then(function () {
-                        for (var i in user.locations) {
-                            (function (e) {
-                                if (user.locations.hasOwnProperty(e)) {
-                                    if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
-                                        var zip;
-                                        if (user.locations[e].address.length === 5) {
-                                            zip = user.locations[e].address
-                                        } else {
-                                            zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length - 2].replace(',', '');
-                                        }
-                                        goGet(zip, e).then(function (ww) {
-                                            console.log('get ' + e)
-                                            w[ww[0]] = {quick: ww[1], full: ww[2], icon: ww[3]}
-                                        });
+
+                    for (var i in user.locations) {
+                        (function (e) {
+                            if (user.locations.hasOwnProperty(e)) {
+                                if (user.locations[e].address !== '' && user.locations[e].weatherUpdates) {
+                                    var zip;
+                                    if (user.locations[e].address.length === 5) {
+                                        zip = user.locations[e].address
+                                    } else {
+                                        zip = user.locations[e].address.split(' ')[user.locations[e].address.split(' ').length - 2].replace(',', '');
                                     }
+                                    var res = goGet(zip, e).then(function(ww){
+                                        return [[ww[0]], {quick: ww[1], full: ww[2], icon: ww[3]}]
+                                    });
+                                    promises.push(res);
+
                                 }
-                            })(i)
-                        }
-                    })
-                    .then(function () {
+                            }
+                        })(i)
+                    }
+
+                    var res = goGet('local', 'local').then(function(ww){
+                        return [[ww[0]], {quick: ww[1], full: ww[2], icon: ww[3]}]
+                    });
+                    promises.push(res);
+
+                    $q.all(promises).then(function(val){
+                        val.forEach(function(e){
+                            w[e[0]] = e[1]
+                        });
                         w.updated = Date.now();
                         user.data.weather = w;
                         resolve(w)
@@ -122,7 +127,7 @@ angular.module('App')
                     if (authObj.$getAuth()) {
                         var provider = authObj.$getAuth().provider;
                         var id = (authObj.$getAuth()[provider].id);
-                        obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/weather'));
+                        var obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/weather'));
                         obj.$loaded(function(){
                             if ((Date.now() - obj > 600000) || obj === undefined) {
                                 console.log('new weather');
