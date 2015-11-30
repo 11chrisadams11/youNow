@@ -1,6 +1,6 @@
 angular.module('App')
 .controller('settingsCtrl', function($rootScope, $scope, userService, $state){
-
+    // todo: make settings work right
     if(Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
             $scope.user = user;

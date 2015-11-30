@@ -19,52 +19,48 @@ angular.module('App')
                 }, categories);
                 resolve(categories)
             });
-                /*.then(function (cat) {
-                resolve(cat)
-            });*/
         }
 
         function getNews() {
-            return getUserData().then(function (cat) {
-                var promise = [];
-                categories = cat;
+            return $q(function(resolve){
+                getUserData().then(function (cat) {
+                    var promise = [];
 
-                categories.forEach(function (e) {
-                    promise.push($http({
-                            method: 'GET',
-                            url: url1 + e + url2
-                        }).then(function (res) {
-                            var data = res.data.results,
-                                image = '';
-                            if (res.data.results[0].multimedia === '') {
-                                image = ''
-                            } else {
-                                image = data[0].multimedia[3].url
-                            }
-                            return [e, {
-                                title: data[0].title,
-                                image: image,
-                                text: data[0].abstract,
-                                url: data[0].url
-                            }];
+                    cat.forEach(function (e) {
+                        var r = $http({
+                                method: 'GET',
+                                url: url1 + e + url2
+                            }).then(function (res) {
+                                var data = res.data.results,
+                                    image = '';
+                                if (res.data.results[0].multimedia === '') {
+                                    image = ''
+                                } else {
+                                    image = data[0].multimedia[3].url
+                                }
+                                return [e, {
+                                    title: data[0].title,
+                                    image: image,
+                                    text: data[0].abstract,
+                                    url: data[0].url
+                                }];
 
-                        })
-                    );
-                });
-                return promise
-            }).then(function (promise) {
-                var n = {};
-                return $q.all(promise).then(function (val) {
-                    val.forEach(function (e) {
-                        n[e[0]] = e[1];
+                            });
+                        promise.push(r)
                     });
-                    n.updated = Date.now();
-                    user.data.news = n;
-                    return n
+
+                    var n = {};
+
+                    $q.all(promise).then(function (val) {
+                        val.forEach(function (e) {
+                            n[e[0]] = e[1];
+                        });
+                        n.updated = Date.now();
+                        user.data.news = n;
+                        resolve(n)
+                    });
                 });
-            });
-
-
+            })
         }
 
         this.getNewsData = function (usr) {

@@ -24,9 +24,11 @@ angular.module('App')
     }
 
     function getNews(){
-        newsService.getNewsData($scope.user).then(function(data){
-            $scope.user.data.news = data
-        })
+        if($scope.user.settings.news.updates){
+            newsService.getNewsData($scope.user).then(function(data){
+                $scope.user.data.news = data
+            })
+        }
     }
 
 
