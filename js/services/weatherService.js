@@ -129,14 +129,15 @@ angular.module('App')
                         var id = (authObj.$getAuth()[provider].id);
                         var obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/weather'));
                         obj.$loaded(function(){
-                            if ((Date.now() - obj > 600000) || obj === undefined) {
-                                console.log('new weather');
+                            var upd = obj.updated;
+                            if ((Date.now() - upd > 600000) || upd === undefined) {
+                                console.log('new weather 1');
                                 getCurrentWeather().then(function(w){
                                     user.data.weather = w;
                                     resolve(w)
                                 })
                             } else {
-                                console.log('same old weather');
+                                console.log('same old weather 1');
                                 user.data.weather = obj;
                                 resolve(obj)
                             }
@@ -144,13 +145,13 @@ angular.module('App')
                     }
                 } else {
                     if ((Date.now() - user.data.weather.updated > 600000) || user.data.weather.updated === undefined) {
-                        console.log('new weather');
+                        console.log('new weather 2');
                         getCurrentWeather().then(function(w){
                             user.data.weather = w;
                             resolve(w)
                         })
                     } else {
-                        console.log('same old weather');
+                        console.log('same old weather 2');
                         resolve(user.data.weather)
                     }
                 }

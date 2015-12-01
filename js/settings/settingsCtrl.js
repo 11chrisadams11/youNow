@@ -1,6 +1,7 @@
 angular.module('App')
-.controller('settingsCtrl', function($rootScope, $scope, userService, $state){
+.controller('settingsCtrl', function($rootScope, $scope, userService, $state, fb, $firebaseObject){
     // todo: make settings work right
+
     if(Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
             $scope.user = user;
@@ -22,6 +23,7 @@ angular.module('App')
 
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
+            var oldUser = $scope.user;
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
                 $scope.user.locations.home.address = $scope.details.home.formatted_address;
                 $scope.edit.home = false;
@@ -37,9 +39,14 @@ angular.module('App')
             } else {
                 $scope.user.locations.work.address = ''
             }
+
             userService.setUserData($scope.user);
-            //$scope.user.data.weather.updated = 0
-            $scope.user.data.news.updated = 0
+            if(oldUser !== $scope.user){
+                $scope.user.data.weather.updated = 0;
+                $scope.user.data.news.updated = 0;
+            }
+            $scope.user2 = $scope.user;
+            $scope.user2.$save();
         }
     }
 });

@@ -1,5 +1,7 @@
 <div id="mainBody">
-    <div class="category" ng-repeat="(sk,sv) in user.data.categories | orderBy: '-$index'" ng-if="user.settings[sk].updates">
+
+    <div class="category" ng-repeat="(sk,sv) in user.settings" ng-if="user.settings[sk].updates">
+        {{user.settings.$index}}
         <h3>{{sk | capitalize}}</h3>
         {{user.data[sk].quick}}
         <div ng-if="sk === 'weather'">

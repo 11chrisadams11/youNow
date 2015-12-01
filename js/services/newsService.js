@@ -74,14 +74,15 @@ angular.module('App')
                         var id = (authObj.$getAuth()[provider].id);
                         var obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/news'));
                         obj.$loaded(function () {
-                            if ((Date.now() - obj > 600000) || obj === undefined) {
-                                console.log('new news 2');
+                            var upd = obj.updated;
+                            if ((Date.now() - upd > 600000) || upd === undefined) {
+                                console.log('new news 1');
                                 getNews().then(function (w) {
                                     user.data.news = w;
                                     resolve(w)
                                 })
                             } else {
-                                console.log('same old news 2');
+                                console.log('same old news 1');
                                 user.data.news = obj;
                                 resolve(obj)
                             }
@@ -89,13 +90,13 @@ angular.module('App')
                     }
                 } else {
                     if ((Date.now() - user.data.news.updated > 600000) || user.data.news.updated === undefined) {
-                        console.log('new news');
+                        console.log('new news 2');
                         getNews().then(function (w) {
                             user.data.news = w;
                             resolve(w)
                         })
                     } else {
-                        console.log('same old news');
+                        console.log('same old news 2');
                         resolve(user.data.news)
                     }
                 }

@@ -62,7 +62,10 @@ angular.module('App')
                                 news: {}
                             },
                             settings: {
-                                news: ''
+                                news: '',
+                                weather: {
+                                    updates: true
+                                }
                             }
                         };
                         ref.set(o, function () {
