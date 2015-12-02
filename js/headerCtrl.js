@@ -14,21 +14,24 @@ angular.module('App')
         $scope.user2 = $firebaseObject(ref);
     });
 
-    function unbind(){
+    /*function unbind(){
         return $q(function(res){
             if(typeof $scope.unbind === 'function'){
                 $scope.unbind();
             }
             res(true)
         })
-    }
+    }*/
 
     $scope.logout = function(){
-        unbind().then(function(){
+        /*unbind().then(function(){
             $scope.user = {};
             $('#settingsOkButton').removeClass("glyphicon glyphicon-cog glyphicon-ok");
             userService.logout()
-        });
+        });*/
+        $scope.user = {};
+        $('#settingsOkButton').removeClass("glyphicon glyphicon-cog glyphicon-ok");
+        userService.logout()
     }
 
 });

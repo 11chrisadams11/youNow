@@ -1,6 +1,6 @@
 angular.module('App')
-.controller('mainCtrl', function($scope, weatherService, newsService, userService){
-    var update;
+.controller('mainCtrl', function($scope, weatherService, newsService, userService, travelService){
+    var updateWeather, updateNews;
 
     if($scope.user === undefined || Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
@@ -16,11 +16,11 @@ angular.module('App')
                 $scope.user2.$save();
 
                 var upd = $scope.user.data.weather.updated;
-                if(upd !== undefined){
-                    clearTimeout(upd);
+                if(updateWeather !== undefined){
+                    clearTimeout(updateWeather);
                 }
 
-                update = setTimeout(getWeather, (upd+600000));
+                updateWeather = setTimeout(getWeather, (upd+600000));
                 console.log('Get new weather in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
             });
     }
@@ -31,11 +31,23 @@ angular.module('App')
                 $scope.user.data.news = data;
                 $scope.user2 = $scope.user;
                 $scope.user2.$save();
+
+                var upd = $scope.user.data.news.updated;
+                if(updateNews !== undefined){
+                    clearTimeout(updateNews);
+                }
+
+                updateNews = setTimeout(getNews, (upd+600000));
+                console.log('Get new news in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
             })
         }
     }
 
+    function getTravel(){
+        travelService.getTravelInfo($scope.user.locations.home.address, $scope.user.locations.work.address)
+    }
 
-    setTimeout(function(){getWeather()}, 1000);
+
+    setTimeout(function(){getTravel();getWeather()}, 1000);
     setTimeout(function(){getNews()}, 2000);
 });

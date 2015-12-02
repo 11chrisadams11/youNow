@@ -66,7 +66,7 @@ angular.module('App')
         this.getNewsData = function (usr) {
             user = usr;
             return $q(function (resolve) {
-                if (Object.keys(user.data.news).length === 0) {
+                if (user.data.news === undefined || Object.keys(user.data.news).length === 0) {
                     var rel = new Firebase(fb.url + 'user/');
                     authObj = $firebaseAuth(rel);
                     if (authObj.$getAuth()) {

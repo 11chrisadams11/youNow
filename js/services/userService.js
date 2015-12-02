@@ -65,7 +65,8 @@ angular.module('App')
                                 news: '',
                                 weather: {
                                     updates: true
-                                }
+                                },
+                                firstTime: true
                             }
                         };
                         ref.set(o, function () {
@@ -98,20 +99,20 @@ angular.module('App')
         }
 
         this.loginWith = function (service) {
-            authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
-            authObj.$authWithOAuthPopup(service).then(function (authData) {
-                var id = (authData[authData.provider].id);
-                var name = (authData[authData.provider].displayName);
-                authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
-                checkIfUserExistsInDB(id, name).then(function (u) {
-                    user = u;
-                    $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
-                    $state.go('main')
+            return $q(function(resolve){
+                authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
+                authObj.$authWithOAuthPopup(service).then(function (authData) {
+                    var id = (authData[authData.provider].id);
+                    var name = (authData[authData.provider].displayName);
+                    //authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
+                    checkIfUserExistsInDB(id, name).then(function (u) {
+                        user = u;
+                        resolve(user)
+                    });
+                }).catch(function (error) {
+                    console.error("Authentication failed:", error);
+                    $state.go('login')
                 });
-            }).catch(function (error) {
-                console.error("Authentication failed:", error);
-                $state.go('login')
-            });
+            })
         };
-
     });
