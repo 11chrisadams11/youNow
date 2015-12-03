@@ -39,7 +39,7 @@ angular.module('App')
                                     image = data[0].multimedia[3].url
                                 }
                                 return [e, {
-                                    title: data[0].title,
+                                    title: decodeURIComponent(data[0].title),
                                     image: image,
                                     text: data[0].abstract,
                                     url: data[0].url

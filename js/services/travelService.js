@@ -1,40 +1,66 @@
 angular.module('App')
-    .service('travelService', function ($http, $q, userService, fb, $firebaseAuth, $firebaseObject) {
-    var baseUrl = 'https://maps.googleapis.com/maps/api/',
-        distanceUrl = 'distancematrix/json?traffic_model=best_guess&units=imperial',
-        directionsUrl = 'directions/json?traffic_model=best_guess&units=imperial&departure_time=now&origin=',
-        mapUrl = 'staticmap?size=150x150&format=png&path=enc:',
-        key = '&key=AIzaSyBPeQiNMIeS0KQJmnD95Rw8t8M6g9dhxHQ';
+    .service('travelService', function ($http, $q) {
 
-        this.getTravelInfo = function(to, from){
-            var directionsService = new google.maps.DirectionsService;
-            var request = {
-                origin: from,
-                destination: to,
-                travelMode: google.maps.TravelMode.DRIVING,
-                drivingOptions: {
-                    departureTime: new Date(Date.now()),
-                    trafficModel: google.maps.TrafficModel.BEST_GUESS
+        this.getTravelInfo = function(usr){
+            return $q(function(resolve){
+                var user = usr,
+                    travelAfterWork,
+                    now = new Date(),
+                    to,
+                    from,
+                    toName;
+                // todo: get real times for the day
+                var workStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 0, 0, 0);
+                var workEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
+                if(now<workStart){
+                    to = user.locations.work.address;
+                    from = user.locations.home.address;
+                    toName = 'Work';
+                    travelAfterWork = false
+                } else if(workStart<now && now<workEnd){
+                    to = user.locations.home.address;
+                    from = user.locations.work.address;
+                    toName = 'Home';
+                    travelAfterWork = false
+                } else if(now>workEnd){
+                    travelAfterWork = true;
+                    resolve({travelAfterWork: travelAfterWork})
                 }
-            };
 
-            directionsService.route(request, function(response, status) {
-                var data = response.routes['0']
-                console.log(data)
-                console.log(data.summary, data.legs['0'].distance.text, data.legs['0'].duration.text)
+                if(!travelAfterWork) {
+                    var directionsService = new google.maps.DirectionsService;
+                    var request = {
+                        origin: from,
+                        destination: to,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        drivingOptions: {
+                            departureTime: new Date(Date.now()),
+                            trafficModel: google.maps.TrafficModel.BEST_GUESS
+                        }
+                    };
+
+                    directionsService.route(request, function (response, status) {
+                        var data = response.routes['0'];
+
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+
+                        var map = new google.maps.Map(document.getElementById("map"));
+                        directionsDisplay.setMap(map);
+
+                        var trafficLayer = new google.maps.TrafficLayer();
+                        trafficLayer.setMap(map);
+                        directionsDisplay.setDirections(response);
+
+
+                        resolve({
+                            toName: toName,
+                            distance: data.legs['0'].distance.text,
+                            time: data.legs['0'].duration.text,
+                            summary: data.summary,
+                            travelAfterWork: travelAfterWork
+                        })
+                    });
+                }
             });
-
-                /*console.log(baseUrl + directionsUrl + encodeURIComponent(from) + '&destination=' + encodeURIComponent(to) + key)
-                return $q(function(resolve){
-                    $http({
-                        method: 'JSONP',
-                        url: baseUrl + directionsUrl + encodeURIComponent(84123) + '&destination=' + encodeURIComponent(84043) + key
-                    }).then(function(res){
-                        console.log(res.data)
-                    }, function(error){
-                        console.log(error)
-                    })
-                })*/
         }
-
     });

@@ -7,25 +7,6 @@ angular.module('App', ['ui.router', 'firebase', 'ngAutocomplete', 'ngAnimate'])
         return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 })
-.filter('orderByKey', function () {
-    return function (input) {
-        if (!angular.isUndefined(input)) {
-            var tmpInput = [];
-            angular.forEach(input, function (value, key) {
-                tmpInput.push(key);
-            });
-            tmpInput.sort();
-
-            var tmpOutput = [];
-            angular.forEach(tmpInput, function (key) {
-                tmpOutput.push(input[key]);
-            });
-            return tmpOutput;
-        } else {
-            return input;
-        }
-    }
-})
 .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/login");
     $stateProvider

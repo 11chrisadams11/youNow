@@ -30,9 +30,10 @@
         </div>
         <div ng-if="!edit.work">
             {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
-            <p>Get weather ppdates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-            <!--<p>Get travel times <input type="checkbox" ng-model="user.locations.work.travelTimes"></p>-->
-            <!--<div ng-if="user.locations.work.travelTimes">Work Hours</div>-->
+            <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+            <p>Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
+            <div ng-if="user.settings.travel.updates">Work Hours</div>
+            <!-- todo: set work hours-->
         </div>
     </div>
 

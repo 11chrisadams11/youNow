@@ -12,8 +12,7 @@ angular.module('App')
         weatherService.getWeatherData()
             .then(function (data) {
                 $scope.user.data.weather = data;
-                $scope.user2 = $scope.user;
-                $scope.user2.$save();
+                saveData();
 
                 var upd = $scope.user.data.weather.updated;
                 if(updateWeather !== undefined){
@@ -29,8 +28,7 @@ angular.module('App')
         if($scope.user.settings.news.updates){
             newsService.getNewsData($scope.user).then(function(data){
                 $scope.user.data.news = data;
-                $scope.user2 = $scope.user;
-                $scope.user2.$save();
+                saveData();
 
                 var upd = $scope.user.data.news.updated;
                 if(updateNews !== undefined){
@@ -44,10 +42,23 @@ angular.module('App')
     }
 
     function getTravel(){
-        travelService.getTravelInfo($scope.user.locations.home.address, $scope.user.locations.work.address)
+        travelService.getTravelInfo($scope.user).then(function(data){
+            if(data.travelAfterWork){
+                $scope.travelAfterWork = true
+            } else {
+                $scope.user.data.travel = data;
+                saveData();
+                $scope.travelAfterWork = false
+            }
+        })
     }
 
 
-    setTimeout(function(){getTravel();getWeather()}, 1000);
-    setTimeout(function(){getNews()}, 2000);
+    function saveData(){
+        $scope.user2 = $scope.user;
+        $scope.user2.$save();
+    }
+
+    setTimeout(function(){getWeather()}, 1000);
+    setTimeout(function(){getTravel();getNews()}, 2000);
 });
