@@ -97,9 +97,41 @@ input[type="text"]
   font-size: 20px
   font-weight: bold
 
-#newsCategories>div
+.data
   margin-left: 20px
 
+.trTi.ng-hide-add, .trTi.ng-hide-remove, #newsCategories.ng-hide-add, #newsCategories.ng-hide-remove
+  transition: all linear 0.25s
+
+.trTi.ng-hide, #newsCategories.ng-hide
+  line-height: 0
+  opacity: 0
+  padding: 0 0
+
+#newsPicker, #workTimes
+  margin-left: 20px
+
+#workTimes
+  position: relative
+  line-height: 30px
+
+#workTimes .times, .timeEdit
+  position: absolute
+  left: 80px
+
+#workTimes input
+  width: 70px
+  height: 25px
+  border: 1px solid black
+  border-radius: 3px
+  line-height: 25px
+  text-indent: 5px
+
+.tStart
+  margin-left: 5px
+
+.tTo, .tEnd
+  margin-left: 6px
 
 //    --== Cards ==--
 

@@ -104,13 +104,10 @@ angular.module('App')
 
                 return [name, {
                     location: curr.display_location.city + ', ' + curr.display_location.state,
-                    temp: curr.temp_f + '°',
+                    temp: Math.round(curr.temp_f) + '°',
                     weather: curr.weather
                 },
                 {
-                    location: curr.display_location.city + ', ' + curr.display_location.state,
-                    temp: curr.temp_f + '°',
-                    weather: curr.weather,
                     forecastTemp: tempHigh,
                     forecastTempLow: tempLow,
                     forecastIcon: icon,

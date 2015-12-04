@@ -2,21 +2,36 @@ angular.module('App')
 .controller('settingsCtrl', function($rootScope, $scope, userService, $state, fb, $firebaseObject){
     var oldNews = JSON.parse(JSON.stringify($scope.user.settings.news));
     var oldWeather = JSON.parse(JSON.stringify($scope.user.locations));
+    $scope.days = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday'};
+
     if($scope.user === undefined || Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
             $scope.user = user;
+            $rootScope.days = $scope.user.settings.travel.days;
             $scope.edit = {
                 home:$scope.user.locations.home.address === '',
                 work:$scope.user.locations.work.address === '',
+                travel:checkForHours(),
                 name:$scope.user.name === ''
             };
+
         });
     } else {
         $scope.edit = {
             home:$scope.user.locations.home.address === '',
             work:$scope.user.locations.work.address === '',
+            travel:checkForHours(),
             name:$scope.user.name === ''
         };
+        $rootScope.days = $scope.user.settings.travel.days
+    }
+
+    function checkForHours(){
+        var i = {};
+        for(var d=0; d<7; d++){
+            i[d] = ($scope.user.settings.travel.days[d].start === '' && $scope.user.settings.travel.days[d].end === '')
+        }
+        return i
     }
 
     $scope.details = {home:'', work:''};
@@ -39,12 +54,15 @@ angular.module('App')
                 $scope.user.locations.work.address = ''
             }
 
+            $scope.user.settings.travel.days = $rootScope.days;
+
             userService.setUserData($scope.user);
 
-            if(oldNews !== $scope.user.settings.news){
+            console.log(isEquivalent(oldNews.categories, $scope.user.settings.news.categories))
+            if(!isEquivalent(oldNews.categories, $scope.user.settings.news.categories) || oldNews.updated !== $scope.user.settings.news.updated){
                 $scope.user.data.news.updated = 0;
             }
-            if(oldWeather !== $scope.user.locations){
+            if(!isEquivalent(oldWeather.home, $scope.user.locations.home) || !isEquivalent(oldWeather.work, $scope.user.locations.work)){
                 $scope.user.data.weather.updated = 0;
             }
 
@@ -54,5 +72,23 @@ angular.module('App')
             $scope.user2 = $scope.user;
             $scope.user2.$save();
         }
+    };
+
+    function isEquivalent(a, b) {
+        var aProps = Object.getOwnPropertyNames(a);
+        var bProps = Object.getOwnPropertyNames(b);
+        if (aProps.length != bProps.length) {
+            return false;
+        }
+
+        for (var i = 0; i < aProps.length; i++) {
+            var propName = aProps[i];
+            if (a[propName] !== b[propName]) {
+                return false;
+            }
+        }
+
+        return true;
     }
+
 });
