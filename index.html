@@ -22,7 +22,7 @@
         <div current-time id="time"></div>
         <div id="settingsOkButton" settings-ok-button ng-click="settingsOK()"></div>
     </div>
-    <div ui-view></div>
+    <div ui-view id="views"></div>
 </div>
 
 <script src="js/vendor/angular-animate.js"></script>
@@ -40,13 +40,14 @@
 <script src="js/services/weatherService.js"></script>
 <script src="js/services/newsService.js"></script>
 <script src="js/services/travelService.js"></script>
-<script src="js/main/mainCtrl.js"></script>
-<script src="js/settings/settingsCtrl.js"></script>
-<script src="js/login/loginCtrl.js"></script>
+<script src="js/services/movieService.js"></script>
+<script src="js/views/main/mainCtrl.js"></script>
+<script src="js/views/settings/settingsCtrl.js"></script>
+<script src="js/views/login/loginCtrl.js"></script>
 <script src="js/directives/dateTime.js"></script>
 <script src="js/directives/settingsOkButton.js"></script>
 <script src="js/directives/timePicker.js"></script>
-<script src="js/cards/cards.js"></script>
+<script src="js/views/cards/cards.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

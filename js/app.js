@@ -12,17 +12,17 @@ angular.module('App', ['ui.router', 'firebase', 'ngAutocomplete', 'ngAnimate'])
     $stateProvider
         .state('main', {
             url: "/main",
-            templateUrl: "js/main/main.html",
+            templateUrl: "js/views/main/main.html",
             controller: 'mainCtrl'
         })
         .state('settings', {
             url: "/settings",
-            templateUrl: "js/settings/settings.html",
+            templateUrl: "js/views/settings/settings.html",
             controller: 'settingsCtrl'
         })
         .state('login', {
         url: "/login",
-        templateUrl: "js/login/login.html",
+        templateUrl: "js/views/login/login.html",
         controller: 'loginCtrl'
     });
 });

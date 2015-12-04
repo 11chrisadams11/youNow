@@ -2,8 +2,11 @@ angular.module('App')
 .controller('settingsCtrl', function($rootScope, $scope, userService, $state, fb, $firebaseObject){
     var oldNews = JSON.parse(JSON.stringify($scope.user.settings.news));
     var oldWeather = JSON.parse(JSON.stringify($scope.user.locations));
-    $scope.days = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday'};
+    $scope.daysN = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday'};
 
+    /**
+     * Get user object from userService then set editing ability
+     */
     if($scope.user === undefined || Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
             $scope.user = user;
@@ -26,6 +29,10 @@ angular.module('App')
         $rootScope.days = $scope.user.settings.travel.days
     }
 
+    /**
+     * Checks each day if times are set
+     * @returns {{number}} Amount of days that have no times set
+     */
     function checkForHours(){
         var i = {};
         for(var d=0; d<7; d++){
@@ -36,6 +43,9 @@ angular.module('App')
 
     $scope.details = {home:'', work:''};
 
+    /**
+     * Commit settings to firebase and local user object
+     */
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
@@ -74,6 +84,13 @@ angular.module('App')
         }
     };
 
+    /**
+     * Check if two objects are equal
+     *
+     * @param a {object} First object to check
+     * @param b {object} Second object to check
+     * @returns {boolean} If objects are equal or not
+     */
     function isEquivalent(a, b) {
         var aProps = Object.getOwnPropertyNames(a);
         var bProps = Object.getOwnPropertyNames(b);

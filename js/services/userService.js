@@ -3,10 +3,18 @@ angular.module('App')
         var user = {};
         var authObj;
 
+        /**
+         * Set local user object from $scope.user
+         * @param u {object} $scope.user object
+         */
         this.setUserData = function(u){
             user = u
         };
 
+        /**
+         * Checks if user object is empty, if so get logged in user info, else return stored user
+         * @returns {object} Return user object
+         */
         this.getUserData = function () {
             return $q(function (resolve) {
                 if (Object.keys(user).length === 0) { //If user var is empty, get logged in info
@@ -20,6 +28,13 @@ angular.module('App')
             })
         };
 
+        /**
+         * Check if user id is in database
+         *
+         * @param id {number} Id number of logged in user
+         * @param name {string} Name of logged in user
+         * @returns {object} Return saved or empty user object
+         */
         function checkIfUserExistsInDB(id, name) {
             return $q(function (resolve) {
                 var ref = new Firebase(fb.url + 'user/' + id);
@@ -62,9 +77,14 @@ angular.module('App')
                                 news: {}
                             },
                             settings: {
-                                news: '',
+                                news: {
+                                    updates: false
+                                },
                                 weather: {
                                     updates: true
+                                },
+                                travel: {
+                                    updates: false
                                 },
                                 firstTime: true
                             }
@@ -77,12 +97,20 @@ angular.module('App')
             })
         }
 
+        /**
+         * Log user out when button is clicked
+         */
         this.logout = function () {
             authObj.$unauth();
             user = {};
             $state.go('login');
         };
 
+        /**
+         * Check if user is logged in
+         *
+         * @returns {object} User object
+         */
         function getLoggedInUser() {
             return $q(function (resolve) {
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
@@ -98,6 +126,12 @@ angular.module('App')
             })
         }
 
+        /**
+         * Log user in with selected service, else throw error
+         *
+         * @param service {string} Service name
+         * @returns {object} User object from database
+         */
         this.loginWith = function (service) {
             return $q(function(resolve){
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));

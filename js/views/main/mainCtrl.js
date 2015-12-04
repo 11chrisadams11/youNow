@@ -19,7 +19,8 @@ angular.module('App')
                     clearTimeout(updateWeather);
                 }
 
-                updateWeather = setTimeout(getWeather, (upd+600000));
+                //updateWeather = setTimeout(function(){getWeather()}, (upd+600000));
+                updateWeather = setTimeout(function(){getWeather()}, ((upd+600000)-Date.now()));
                 console.log('Get new weather in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
             });
     }
@@ -35,7 +36,7 @@ angular.module('App')
                     clearTimeout(updateNews);
                 }
 
-                updateNews = setTimeout(getNews, (upd+600000));
+                updateNews = setTimeout(function(){getNews()}, ((upd+600000)-Date.now()));
                 console.log('Get new news in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
             })
         }
@@ -53,6 +54,12 @@ angular.module('App')
         })
     }
 
+    function getMovies(){
+        movieService.getMovies($scope.user).then(function(data){
+
+        })
+    }
+
 
     function saveData(){
         $scope.user2 = $scope.user;
@@ -60,5 +67,5 @@ angular.module('App')
     }
 
     setTimeout(function(){getWeather()}, 1000);
-    setTimeout(function(){getTravel();getNews()}, 2000);
+    setTimeout(function(){getTravel();getNews();getMovies()}, 2000);
 });

@@ -48,9 +48,12 @@
 .glyphicon-ok {
   color: greenyellow !important; }
 
+#loginView {
+  position: relative;
+  text-align: center; }
+
 #loginMain {
   display: inline-block;
-  position: relative;
   margin: 20px auto 0; }
 
 .login {

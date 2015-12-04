@@ -1,1 +1,10 @@
-<span class="times"><input data-se="start" placeholder="Start time"> to <input data-se="end" placeholder="End time"></span>
+<div>
+    <span>{{n}}</span>
+
+    <span class="times" ng-show="edit.travel[d]"><input data-se="start" placeholder="Start time"> to <input data-se="end" placeholder="End time"></span>
+
+    <span ng-show="!edit.travel[d] && user.settings.travel.days[d].start != ''" class="timeEdit">
+        <span class="tStart">{{days[d].start}}</span> <span class="tTo">to</span> <span class="tEnd">{{user.settings.travel.days[d].end}}</span>
+        <span class="glyphicon glyphicon-remove" ng-click="days[d].start = ''; days[d].end = '';edit.travel[d]=true"></span>
+    </span>
+</div>

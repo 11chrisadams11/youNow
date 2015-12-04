@@ -1,0 +1,69 @@
+<h2>Settings</h2>
+
+<div id="settingsBody">
+    <span class="title">Display Name:</span>
+
+    <div ng-if="edit.name" class="data">
+        <input ng-model="user.name" type="text" placeholder="Display Name">
+    </div>
+    <div ng-if="!edit.name" class="data">
+        {{user.name}} <span class="glyphicon glyphicon-edit" ng-click="edit.name=true"></span>
+    </div>
+
+    <div id="settingsLocations" class="settingsGroups">
+        <span class="title">Home Address:</span>
+
+        <div ng-if="edit.home" class="data">
+            <input ng-model="user.locations.home.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.home">
+            <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates" /></p>
+        </div>
+        <div ng-if="!edit.home" class="data">
+            {{user.locations.home.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.home=true"></span>
+            <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
+        </div>
+
+        <span class="title">Work Address:</span>
+
+        <div ng-if="edit.work" class="data">
+            <input ng-model="user.locations.work.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.work">
+            <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+            <p>Get travel times <input type="checkbox" ng-model="user.locations.work.travelTimes"></p>
+            <div ng-if="user.locations.work.travelTimes">Hours</div>
+        </div>
+        <div ng-if="!edit.work" class="data">
+            {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
+            <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+            <p>Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
+            <div ng-show="user.settings.travel.updates" class="trTi">
+                <span>Work Hours</span> <span class="glyphicon glyphicon-edit" ng-click="edit.travel=true" ng-if="!edit.travel"></span>
+                <div id="workTimes">
+                    <time-picker ng-repeat="(d,n) in daysN" day="{{d}}"></time-picker>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsNews" class="settingsGroups">
+        <span class="title">News:</span>
+
+        <p class="data">Get news updates <input type="checkbox" ng-model="user.settings.news.updates"></p>
+        <div id="newsCategories" ng-show="user.settings.news.updates">
+            <div class="data">Updates for:
+                <div id="newsPicker">
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.home"> U.S.</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.world"> World</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.politics"> Politics</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.business"> Business</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.opinion"> Opinion</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.technology"> Technology</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.health"> Health</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.sports"> Sports</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.arts"> Arts</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.fashion"> Fashion</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.dining"> Dining</p>
+                    <p><input type="checkbox" ng-model="user.settings.news.categories.travel"> Travel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

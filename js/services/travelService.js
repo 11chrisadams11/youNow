@@ -1,6 +1,12 @@
 angular.module('App')
     .service('travelService', function ($http, $q) {
 
+        /**
+         * Get times and map info from Google based on work times
+         *
+         * @param usr {object} User object
+         * @returns {object} Time, distance, and map object
+         */
         this.getTravelInfo = function(usr){
             return $q(function(resolve){
                 var user = usr,
@@ -8,10 +14,15 @@ angular.module('App')
                     now = new Date(),
                     to,
                     from,
-                    toName;
-                // todo: get real times for the day
-                var workStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 0, 0, 0);
-                var workEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0);
+                    toName,
+                    times;
+
+                times = [user.settings.travel.days[now.getDay()].start, user.settings.travel.days[now.getDay()].end];
+                times[0] = times[0] === '' ? '00:00:00 AM' : times[0];
+                times[1] = times[1] === '' ? '00:00:00 AM' : times[1];
+
+                var workStart = new Date((now.getMonth()+1) + ' ' + now.getDate() + ' ' + now.getFullYear() + ' ' + times[0]);
+                var workEnd = new Date((now.getMonth()+1) + ' ' + now.getDate() + ' ' + now.getFullYear() + ' ' + times[1]);
                 if(now<workStart){
                     to = user.locations.work.address;
                     from = user.locations.home.address;

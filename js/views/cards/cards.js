@@ -5,7 +5,7 @@ angular.module('App')
         replace: true,
         link: function link(scope, element, attrs, $scope) {
         },
-        templateUrl: 'js/cards/travelCard.html'
+        templateUrl: 'js/views/cards/travelCard.html'
     };
 }])
 .directive('newsCard', [function() {
@@ -14,7 +14,7 @@ angular.module('App')
         replace: true,
         link: function link(scope, element, attrs, $scope) {
         },
-        templateUrl: 'js/cards/newsCard.html'
+        templateUrl: 'js/views/cards/newsCard.html'
     };
 }])
 .directive('weatherCard', [function() {
@@ -23,7 +23,7 @@ angular.module('App')
         replace: true,
         link: function link(scope, element, attrs, $scope) {
         },
-        templateUrl: 'js/cards/weatherCard.html'
+        templateUrl: 'js/views/cards/weatherCard.html'
     };
 }]);
 

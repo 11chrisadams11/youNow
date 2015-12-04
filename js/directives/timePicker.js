@@ -2,10 +2,7 @@ angular.module('App')
     .directive('timePicker', ['$rootScope', function($rootScope) {
         return {
             restrict: 'E',
-            replace: true,
-            scope: {
-                day: '@day'
-            },
+            //replace: true,
             link: function link(scope, element, attrs) {
                 scope.day = attrs.day;
                $(element).find('input').timepicker({
