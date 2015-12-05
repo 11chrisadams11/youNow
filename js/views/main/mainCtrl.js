@@ -42,24 +42,30 @@ angular.module('App')
     }
 
     function getTravel(){
-        travelService.getTravelInfo($scope.user).then(function(data){
-            if(data.travelAfterWork){
-                $scope.travelAfterWork = true
-            } else {
-                $scope.user.data.travel = data;
-                saveData();
-                $scope.travelAfterWork = false
-            }
-        })
+        if($scope.user.settings.travel.updates){
+            travelService.getTravelInfo($scope.user).then(function(data){
+                if(data.travelAfterWork){
+                    $scope.travelAfterWork = true
+                } else {
+                    $scope.user.data.travel = data;
+                    saveData();
+                    $scope.travelAfterWork = false
+                }
+            })
+        }
     }
 
     function getMovies(){
-        movieService.getTheaterMovies($scope.user).then(function(data){
-            $scope.user.data.movies.theater = data
-        });
-        movieService.getDVDMovies($scope.user).then(function(data){
-            $scope.user.data.movies.dvd = data
-        })
+        if($scope.user.settings.movies.theaters){
+            movieService.getTheaterMovies($scope.user).then(function(data){
+                $scope.user.data.movies.theater = data
+            });
+        }
+        if($scope.user.settings.movies.dvd) {
+            movieService.getDVDMovies($scope.user).then(function (data) {
+                $scope.user.data.movies.dvd = data
+            })
+        }
     }
 
 
@@ -68,6 +74,6 @@ angular.module('App')
         $scope.user2.$save();
     }
 
-    setTimeout(function(){getWeather()}, 1000);
+    setTimeout(function(){userService.setTheme($scope.user.settings.theme); getWeather()}, 1000);
     setTimeout(function(){getTravel();getNews();getMovies()}, 2000);
 });

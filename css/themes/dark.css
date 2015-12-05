@@ -4,11 +4,13 @@ body {
 
 #header {
   background-color: #1f1f1f;
+  background-image: none;
   color: whitesmoke; }
 
 .card {
   background-color: #1d1d1d;
-  color: whitesmoke; }
+  color: whitesmoke;
+  border: 0; }
 
 .name {
   background-color: #1f1f1f; }

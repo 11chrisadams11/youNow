@@ -1,5 +1,5 @@
 angular.module('App')
-    .service('userService', function ($http, $firebaseObject, $firebaseAuth, $firebaseArray, fb, $state, $q, $location) {
+    .service('userService', function ($http, $firebaseObject, $firebaseAuth, $firebaseArray, fb, $state, $q, $timeout) {
         var user = {};
         var authObj;
 
@@ -35,71 +35,106 @@ angular.module('App')
          * @param name {string} Name of logged in user
          * @returns {object} Return saved or empty user object
          */
-        function checkIfUserExistsInDB(id, name) {
-            return $q(function (resolve) {
-                var ref = new Firebase(fb.url + 'user/' + id);
+        this.checkIfUserExistsInDB = function(id, name) {
+            return $q(function(resolve){
+                var ref = new Firebase(fb.url + 'user/');
                 ref.once("value", function (snapshot) {
-                    var exists = (snapshot.val() !== null); //if user id in DB
-                    if (exists) {
-                        var d = $firebaseObject(ref);
-                        resolve(d)
-                    } else {
-                        var o = { // create empty user if not in DB
-                            name: name,
-                            locations: {
-                                home: {
-                                    address: '',
-                                    weatherUpdates: true
-                                },
-                                work: {
-                                    address: '',
-                                    weatherUpdates: true
-                                }
-                            },
-                            data: {
-                                weather: {
-                                    home: {
-                                        icon: '',
-                                        quick: '',
-                                        full: ''
-                                    },
-                                    work: {
-                                        icon: '',
-                                        quick: '',
-                                        full: ''
-                                    },
-                                    local: {
-                                        icon: '',
-                                        quick: '',
-                                        full: ''
-                                    }
-                                },
-                                news: {},
-                                movies: {}
-                            },
-                            settings: {
-                                news: {
-                                    updates: false
-                                },
-                                weather: {
-                                    updates: true
-                                },
-                                travel: {
-                                    updates: false
-                                },
-                                movies: {
-                                    updates: true
-                                },
-                                firstTime: true
-                            }
-                        };
-                        ref.set(o, function () {
-                            resolve(o)
-                        });
-                    }
+                    var exists = (snapshot.child(id).exists()); //if user id in DB
+                    console.log('exists', exists)
+                    resolve([id, name, exists])
                 })
             })
-        }
+        };
+
+        /**
+         * If user exists in DB return that object, else return empty object
+         *
+         * @param id {number} User id number
+         * @param name {string} User name
+         * @param exists {boolean} Does user exist in DB
+         * @returns {object} User object
+         */
+        this.getObject = function(id, name, exists){
+            return $q(function(resolve){
+                var ref = new Firebase(fb.url + 'user/' + id);
+                if (exists) {
+                    var d = $firebaseObject(ref);  // load object from db
+                    d.$loaded(function(){
+                        resolve([id,d])
+                    });
+                } else {
+                    var o = { // create empty user if not in DB
+                        name: name,
+                        locations: {
+                            home: {
+                                address: '',
+                                weatherUpdates: true
+                            },
+                            work: {
+                                address: '',
+                                weatherUpdates: true
+                            }
+                        },
+                        data: {
+                            weather: {
+                                home: {
+                                    icon: '',
+                                    quick: '',
+                                    full: ''
+                                },
+                                work: {
+                                    icon: '',
+                                    quick: '',
+                                    full: ''
+                                },
+                                local: {
+                                    icon: '',
+                                    quick: '',
+                                    full: ''
+                                }
+                            },
+                            news: {},
+                            movies: {}
+                        },
+                        settings: {
+                            news: {
+                                updates: false
+                            },
+                            weather: {
+                                updates: true
+                            },
+                            travel: {
+                                updates: false
+                            },
+                            movies: {
+                                theaters: false,
+                                dvd: false
+                            },
+                            firstTime: true
+                        }
+                    };
+                    resolve([id, o])
+                    /*ref.set(o, function () {
+                        resolve(o)
+                    });*/
+                }
+            })
+        };
+
+        /**
+         * Set saved theme on reload or login
+         *
+         * @param theme {string} Name of saved theme
+         */
+        this.setTheme = function(theme){
+            var $theme = $('#theme');
+            if($theme.length !== 0){
+                $theme.remove()
+            }
+            if(theme !== 'default'){
+                $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
+            }
+        };
 
         /**
          * Log user out when button is clicked
@@ -123,9 +158,7 @@ angular.module('App')
                     var id = (authObj.$getAuth()[provider].id);
                     var name = (authObj.$getAuth()[provider].displayName);
 
-                    checkIfUserExistsInDB(id, name).then(function (u) {
-                        resolve(u)
-                    })
+                    //resolve(checkIfUserExistsInDB(id, name))
                 }
             })
         }
@@ -137,20 +170,18 @@ angular.module('App')
          * @returns {object} User object from database
          */
         this.loginWith = function (service) {
-            return $q(function(resolve){
+            return $q(function (resolve) {
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
-                authObj.$authWithOAuthPopup(service).then(function (authData) {
-                    var id = (authData[authData.provider].id);
-                    var name = (authData[authData.provider].displayName);
-                    //authObj = $firebaseAuth(new Firebase(fb.url + 'user/' + id));
-                    checkIfUserExistsInDB(id, name).then(function (u) {
-                        user = u;
-                        resolve(user)
+                authObj.$authWithOAuthPopup(service)
+                    .then(function (authData) {
+                        var id = (authData[authData.provider].id);
+                        var name = (authData[authData.provider].displayName);
+                        resolve([id, name])
+                    })
+                    .catch(function (error) {
+                        console.error("Authentication failed:", error);
+                        $state.go('login')
                     });
-                }).catch(function (error) {
-                    console.error("Authentication failed:", error);
-                    $state.go('login')
-                });
-            })
-        };
+            });
+        }
     });

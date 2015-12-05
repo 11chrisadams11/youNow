@@ -7,6 +7,7 @@ angular.module('App')
     /**
      * Get user object from userService then set editing ability
      */
+        console.log($scope.user)
     if($scope.user === undefined || Object.keys($scope.user).length === 0){
         userService.getUserData().then(function(user){
             $scope.user = user;
@@ -35,10 +36,14 @@ angular.module('App')
      */
     function checkForHours(){
         var i = {};
-        for(var d=0; d<7; d++){
-            i[d] = ($scope.user.settings.travel.days[d].start === '' && $scope.user.settings.travel.days[d].end === '')
+        if("days" in $scope.user.settings.travel) {
+            for (var d = 0; d < 7; d++) {
+                i[d] = ($scope.user.settings.travel.days[d].start === '' && $scope.user.settings.travel.days[d].end === '')
+            }
+            return i
+        } else {
+            return 7
         }
-        return i
     }
 
     $scope.details = {home:'', work:''};
@@ -66,6 +71,14 @@ angular.module('App')
 
             $scope.user.settings.travel.days = $rootScope.days;
 
+            var theme;
+            if($('#theme').length === 0){
+                theme = 'default'
+            } else {
+                theme = $('#theme').data('theme')
+            }
+            $scope.user.settings.theme = theme;
+
             userService.setUserData($scope.user);
 
             console.log(isEquivalent(oldNews.categories, $scope.user.settings.news.categories))
@@ -80,6 +93,7 @@ angular.module('App')
                 $scope.user.settings.firstTime = false
             }
             $scope.user2 = $scope.user;
+            console.log($scope.user2)
             $scope.user2.$save();
         }
     };
@@ -92,6 +106,9 @@ angular.module('App')
      * @returns {boolean} If objects are equal or not
      */
     function isEquivalent(a, b) {
+        if(a === undefined || b === undefined){
+            return false
+        }
         var aProps = Object.getOwnPropertyNames(a);
         var bProps = Object.getOwnPropertyNames(b);
         if (aProps.length != bProps.length) {

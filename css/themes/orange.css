@@ -1,15 +1,16 @@
 body {
-  background-color: #e4e4e4;
+  background-color: #fceecf;
   color: #282828; }
 
 #header {
-  background: #3f51b5 url("../../images/bg/orange.jpg") bottom;
+  background: #e6901c url("../../images/bg/orange.jpg") bottom;
   color: #212121;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); }
 
 .card {
   background-color: white;
-  color: #282828; }
+  color: #282828;
+  border: 0; }
 
 .name {
   background-color: #ff5722;
