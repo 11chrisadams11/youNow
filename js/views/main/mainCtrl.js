@@ -1,5 +1,5 @@
 angular.module('App')
-.controller('mainCtrl', function($scope, weatherService, newsService, userService, travelService){
+.controller('mainCtrl', function($scope, weatherService, newsService, userService, travelService, movieService){
     var updateWeather, updateNews;
 
     if($scope.user === undefined || Object.keys($scope.user).length === 0){
@@ -19,9 +19,8 @@ angular.module('App')
                     clearTimeout(updateWeather);
                 }
 
-                //updateWeather = setTimeout(function(){getWeather()}, (upd+600000));
-                updateWeather = setTimeout(function(){getWeather()}, ((upd+600000)-Date.now()));
-                console.log('Get new weather in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
+                updateWeather = setTimeout(function(){getWeather()}, ((upd+600000*3)-Date.now()));
+                console.log('Get new weather in ' + Math.round(((upd+600000*3)-Date.now())/60000) + ' minutes.')
             });
     }
 
@@ -55,8 +54,11 @@ angular.module('App')
     }
 
     function getMovies(){
-        movieService.getMovies($scope.user).then(function(data){
-
+        movieService.getTheaterMovies($scope.user).then(function(data){
+            $scope.user.data.movies.theater = data
+        });
+        movieService.getDVDMovies($scope.user).then(function(data){
+            $scope.user.data.movies.dvd = data
         })
     }
 

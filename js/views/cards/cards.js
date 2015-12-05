@@ -25,5 +25,14 @@ angular.module('App')
         },
         templateUrl: 'js/views/cards/weatherCard.html'
     };
+}])
+.directive('moviesCard', [function() {
+    return {
+        restrict: 'A',
+        replace: true,
+        link: function link(scope, element, attrs, $scope) {
+        },
+        templateUrl: 'js/views/cards/moviesCard.html'
+    };
 }]);
 

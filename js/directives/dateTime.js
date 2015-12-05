@@ -10,7 +10,7 @@ angular.module('App')
 
                 function updateTime() {
                     var date = new Date();
-                    element.html('<h3>' + dateFilter(date, f1) + ' ' + months[date.getMonth()] + dateFilter(date, f2) + '</h3>');
+                    element.html('<h3><span id="hTime">' + dateFilter(date, f1) + '</span><span id="hDate">' + months[date.getMonth()] + dateFilter(date, f2) + '</span></h3>');
                 }
 
                 updateTime();

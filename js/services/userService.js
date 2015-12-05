@@ -74,7 +74,8 @@ angular.module('App')
                                         full: ''
                                     }
                                 },
-                                news: {}
+                                news: {},
+                                movies: {}
                             },
                             settings: {
                                 news: {
@@ -85,6 +86,9 @@ angular.module('App')
                                 },
                                 travel: {
                                     updates: false
+                                },
+                                movies: {
+                                    updates: true
                                 },
                                 firstTime: true
                             }

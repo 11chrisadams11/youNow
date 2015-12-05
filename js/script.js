@@ -1,4 +1,5 @@
 $(function($scope){
+    var $themeNow;
     $('body')
         .on('click', '.card.news', function(){
             if($(this).find('.newsImage').data('size') === 75){
@@ -13,6 +14,15 @@ $(function($scope){
                     .closest('.card').find('.newsText').animate({'line-height': 0, 'opacity': 0}).hide(1)
             }
 
+        })
+        .on('click', '.themeButton', function(){
+            var t = $(this).data('theme');
+            if($(this).data('theme') === 'default'){
+                $('#theme').remove()
+            } else {
+                $('#theme').remove();
+                $('head').append('<link href="css/themes/' + t + '.css" rel="stylesheet" id="theme" data-theme="' + t + '" />')
+            }
         })
 });
 

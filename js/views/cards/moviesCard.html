@@ -1,0 +1,23 @@
+<div class="card movies" ng-init="i=5" ng-click="i = (i===5) ? 10 : 5">
+    <div class="name">{{k | capitalize}}</div>
+    <div class="movie" ng-repeat="movie in user.data.movies[k] | orderBy : '$id'" ng-if="movie !== 'updated' && $index<5">
+            <div class="moviePoster">
+                <img ng-src="{{movie.poster}}">
+            </div>
+            <div class="movieTitle">
+                <a ng-href="{{movie.link}}" target="_blank">{{movie.title}}</a>
+            </div>
+        <span class="movieCritic"><img ng-src="images/rt/{{movie.ratings.critics_rating}}.png"> {{movie.ratings.critics_score}}%</span>
+    </div>
+    <div class="secondHalf" ng-show="i === 10">
+        <div class="movie" ng-repeat="movie in user.data.movies[k] | orderBy : '$index'" ng-if="movie !== 'updated' && $index>=5 && $index<10" >
+            <div class="moviePoster">
+                <img ng-src="{{movie.poster}}">
+            </div>
+            <div class="movieTitle">
+                <a ng-href="{{movie.link}}" target="_blank">{{movie.title}}</a>
+            </div>
+            <span class="movieCritic"><img ng-src="images/rt/{{movie.ratings.critics_rating}}.png"> {{movie.ratings.critics_score}}%</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+body {
+  background-color: #e4e4e4;
+  color: #282828; }
+
+#header {
+  background-color: #3f51b5;
+  color: #FFFFFF;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); }
+
+.card {
+  background-color: white;
+  color: #282828; }
+
+.name {
+  background-color: #03a9f4;
+  margin: -5px 0 10px -5px;
+  width: 290px;
+  color: whitesmoke;
+  text-indent: 5px; }
+
+/*# sourceMappingURL=blue.css.map */
