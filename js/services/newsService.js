@@ -75,30 +75,19 @@ angular.module('App')
                         var obj = $firebaseObject(new Firebase(fb.url + 'user/' + id + '/data/news'));
                         obj.$loaded(function () {
                             var upd = obj.updated;
-                            if ((Date.now() - upd > 600000) || upd === undefined) {
-                                console.log('new news 1');
-                                getNews().then(function (w) {
-                                    user.data.news = w;
-                                    resolve(w)
-                                })
-                            } else {
-                                console.log('same old news 1');
-                                user.data.news = obj;
-                                resolve(obj)
-                            }
+                            console.log('new news 1');
+                            getNews().then(function (w) {
+                                user.data.news = w;
+                                resolve(w)
+                            })
                         });
                     }
                 } else {
-                    if ((Date.now() - user.data.news.updated > 600000) || user.data.news.updated === undefined) {
-                        console.log('new news 2');
-                        getNews().then(function (w) {
-                            user.data.news = w;
-                            resolve(w)
-                        })
-                    } else {
-                        console.log('same old news 2');
-                        resolve(user.data.news)
-                    }
+                    console.log('new news 2');
+                    getNews().then(function (w) {
+                        user.data.news = w;
+                        resolve(w)
+                    })
                 }
 
             })

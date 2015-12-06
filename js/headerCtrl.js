@@ -1,11 +1,19 @@
 angular.module('App')
-.controller('headerCtrl', function($scope, userService, $q, fb, $firebaseObject){
+.controller('headerCtrl', function($rootScope, $scope, userService, $q, fb, $firebaseObject){
 
-    userService.getUserData().then(function(user){
-        $scope.user = user;
-        var ref = new Firebase(fb.url + '/user/' + $scope.user.$id);
-        $scope.user2 = $firebaseObject(ref);
-    });
+/*    if($rootScope.user === undefined || Object.keys($rootScope.user).length === 0) {
+        userService.getLoggedInUser()
+            .then(function (idArr) {
+                return userService.checkIfUserExistsInDB(idArr[0], idArr[1])
+            })
+            .then(function (id) {
+                return userService.getFirebaseObj(id)
+            })
+            .then(function (user) {
+                $rootScope.user = user;
+                $rootScope.user2 = user
+            });
+    }*/
 
 
     $scope.logout = function(){

@@ -1,14 +1,14 @@
 <div id="mainBody" ng-init="travelAfterWork=true">
 
     <div class="category" ng-show="user.data.weather">
-        <h3>Weather</h3>
+        <h3>Weather<span ng-show="user.data.weather.updated !== 0"> Updated : {{user.data.weather.updated | date:'h:mm a'}}</span></h3>
         <div class="cardHolder" weather-card ng-repeat="(k,w) in user.data.weather"></div>
     </div>
     <div class="category" ng-show="user.settings.news.updates">
-        <h3>News</h3>
+        <h3>News<span ng-show="user.data.news.updated !== 0"> Updated : {{user.data.news.updated | date:'h:mm a'}}</span></h3>
         <div class="cardHolder" news-card ng-repeat="(k,w) in user.data.news"></div>
     </div>
-    <div class="category" ng-show="user.settings.movies.theaters || user.settings.movies.dvd">
+    <div class="category" ng-show="user.settings.movies.theater || user.settings.movies.dvd">
         <h3>Movies</h3>
         <div class="cardHolder" movies-card ng-repeat="(k,w) in user.data.movies" ng-if="user.settings.movies[k]"></div>
     </div>

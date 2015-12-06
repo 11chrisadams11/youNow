@@ -16,10 +16,11 @@
 
         <div ng-if="edit.home" class="data">
             <input ng-model="user.locations.home.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.home">
-            <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates" /></p>
         </div>
         <div ng-if="!edit.home" class="data">
             {{user.locations.home.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.home=true"></span>
+        </div>
+        <div ng-show="user.locations.home.address" class="data">
             <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
         </div>
 
@@ -27,15 +28,16 @@
 
         <div ng-if="edit.work" class="data">
             <input ng-model="user.locations.work.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.work">
-            <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-            <p>Get travel times <input type="checkbox" ng-model="user.locations.work.travelTimes"></p>
-            <div ng-if="user.locations.work.travelTimes">Hours</div>
         </div>
+
         <div ng-if="!edit.work" class="data">
             {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
+        </div>
+
+        <div ng-show="user.locations.work.address" class="data">
             <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-            <p>Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
-            <div ng-show="user.settings.travel.updates" class="trTi">
+            <p ng-show="user.locations.work.address && user.locations.home.address">Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
+            <div ng-show="user.settings.travel.updates && user.locations.work.address && user.locations.home.address" class="trTi">
                 <span>Work Hours</span> <span class="glyphicon glyphicon-edit" ng-click="edit.travel=true" ng-if="!edit.travel"></span>
                 <div id="workTimes">
                     <time-picker ng-repeat="(d,n) in daysN" day="{{d}}"></time-picker>
@@ -70,8 +72,10 @@
 
     <div id="settingsMovies" class="settingsGroups">
         <span class="title">Movies:</span>
-        <p>Get movies opening in theaters <input type="checkbox" ng-model="user.settings.movies.theater"></p>
-        <p>Get movies released on DVD <input type="checkbox" ng-model="user.settings.movies.dvd"></p>
+        <div class="data">
+            <p>Get movies opening in theaters <input type="checkbox" ng-model="user.settings.movies.theater"></p>
+            <p>Get movies released on DVD <input type="checkbox" ng-model="user.settings.movies.dvd"></p>
+        </div>
     </div>
 
     <div id="settingsTheme" class="settingsGroups">

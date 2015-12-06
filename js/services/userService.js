@@ -40,7 +40,6 @@ angular.module('App')
                 var ref = new Firebase(fb.url + 'user/');
                 ref.once("value", function (snapshot) {
                     var exists = (snapshot.child(id).exists()); //if user id in DB
-                    console.log('exists', exists)
                     resolve([id, name, exists])
                 })
             })
@@ -54,15 +53,10 @@ angular.module('App')
          * @param exists {boolean} Does user exist in DB
          * @returns {object} User object
          */
-        this.getObject = function(id, name, exists){
+        this.setEmptyObject = function(id, name, exists){
             return $q(function(resolve){
                 var ref = new Firebase(fb.url + 'user/' + id);
-                if (exists) {
-                    var d = $firebaseObject(ref);  // load object from db
-                    d.$loaded(function(){
-                        resolve([id,d])
-                    });
-                } else {
+                if (!exists) {
                     var o = { // create empty user if not in DB
                         name: name,
                         locations: {
@@ -91,10 +85,16 @@ angular.module('App')
                                     icon: '',
                                     quick: '',
                                     full: ''
-                                }
+                                },
+                                updated: 0
                             },
-                            news: {},
-                            movies: {}
+                            news: {
+                                updated: 0
+                            },
+                            movies: {
+                                theater:{updated: 0},
+                                dvd:{updated: 0}
+                            }
                         },
                         settings: {
                             news: {
@@ -107,16 +107,28 @@ angular.module('App')
                                 updates: false
                             },
                             movies: {
-                                theaters: false,
+                                theater: false,
                                 dvd: false
                             },
+                            theme: 'default',
                             firstTime: true
                         }
                     };
-                    resolve([id, o])
-                    /*ref.set(o, function () {
-                        resolve(o)
-                    });*/
+                    ref.set(o);
+                }
+                resolve(id)
+            })
+        };
+
+        this.getUserObj = function(id){
+            return $q(function(resolve){
+                if(Object.keys(user).length === 0) {
+                    var ref = new Firebase(fb.url + '/user/' + id);
+                    var obj = $firebaseObject(ref);
+                    user = obj;
+                    resolve(obj)
+                } else {
+                    resolve(user)
                 }
             })
         };
@@ -131,9 +143,41 @@ angular.module('App')
             if($theme.length !== 0){
                 $theme.remove()
             }
+
+            var bgColors = {default: '#ffffff', dark: '#353535', blue: '#e4e4e4', orange: '#fceecf', simple: '#ffffff'},
+                headerColors = {default: '#e3eeee', dark: '#1f1f1f', blue: '#3f51b5', orange: '#e6901c', simple: '#ffffff'},
+                bgFontColors = {default: '#000000', dark: 'whitesmoke', blue: '#282828', orange: '#282828', simple: '#000000'},
+                headerFontColors = {default: '#000000', dark: 'whitesmoke', blue: '#FFFFFF', orange: '#212121', simple: '#000000'},
+                shadow = {default: '0 0 0 0', dark: '0 0 0 0', blue: '0 3px 8px rgba(0,0,0,0.5)', orange: '0 3px 8px rgba(0,0,0,0.5)', simple: '0 0 0 0'},
+                cardColors = {default: '#ffffff', dark: '#1d1d1d', blue: '#ffffff', orange: 'white', simple: '#ffffff'},
+                cardFontColors = {default: '#000000', dark: 'whitesmoke', blue: '#282828', orange: '#282828', simple: '#000000'},
+                nameColors = {default: '#fbfbfb', dark: '#1f1f1f', blue: '#03a9f4', orange: '#ff5722', simple: '#ffffff'},
+                nameFontColors = {default: '#000000', dark: 'whitesmoke', blue: 'whitesmoke', orange: 'whitesmoke', simple: '#000000'};
+
             if(theme !== 'default'){
-                $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
+                $('body').animate({
+                    'background-color': bgColors[theme],
+                    'color': bgFontColors[theme]
+                });
+                $('.card').animate({
+                    'background-color': cardColors[theme],
+                    'color': cardFontColors[theme]
+                });
+                $('.name').animate({
+                    'background-color': nameColors[theme],
+                    'color': nameFontColors[theme]
+                });
+                $('#header').animate({
+                    'background-color': headerColors[theme],
+                    'color': headerFontColors[theme],
+                    'box-shadow': shadow[theme]
+                }, function () {
+                    $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
+                });
             }
+           /* if(theme !== 'default'){
+                $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
+            }*/
         };
 
         /**
@@ -150,18 +194,17 @@ angular.module('App')
          *
          * @returns {object} User object
          */
-        function getLoggedInUser() {
+        this.getLoggedInUser = function() {
             return $q(function (resolve) {
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
                 if (authObj.$getAuth()) {
                     var provider = authObj.$getAuth().provider;
                     var id = (authObj.$getAuth()[provider].id);
                     var name = (authObj.$getAuth()[provider].displayName);
-
-                    //resolve(checkIfUserExistsInDB(id, name))
+                    resolve([id, name])
                 }
             })
-        }
+        };
 
         /**
          * Log user in with selected service, else throw error
@@ -183,5 +226,17 @@ angular.module('App')
                         $state.go('login')
                     });
             });
+        };
+
+        this.getLocation = function(){
+            return $q(function(resolve){
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var loc = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    resolve(loc)
+                });
+            })
         }
     });

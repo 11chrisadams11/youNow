@@ -1,79 +1,115 @@
 angular.module('App')
-.controller('mainCtrl', function($scope, weatherService, newsService, userService, travelService, movieService){
+.controller('mainCtrl', function($rootScope, $scope, weatherService, newsService, userService, travelService, movieService, $timeout){
     var updateWeather, updateNews;
 
-    if($scope.user === undefined || Object.keys($scope.user).length === 0){
-        userService.getUserData().then(function(user){
-            $scope.user = user;
-        });
+    if($rootScope.user === undefined || Object.keys($rootScope.user).length === 0){
+        userService.getLoggedInUser()
+            .then(function(id){
+                return userService.getUserObj(id[0])
+            })
+            .then(function(user){
+                $rootScope.user = user;
+                $timeout(function(){firstRun()}, 2000)
+
+            });
+    } else {
+        firstRun()
     }
 
     function getWeather() {
-        weatherService.getWeatherData()
-            .then(function (data) {
-                $scope.user.data.weather = data;
-                saveData();
+        if((Date.now() - $rootScope.user.data.weather.updated) > (600000*3)) {
+            weatherService.getCurrentWeather($rootScope.user)
+                .then(function (data) {
+                    $rootScope.user.data.weather = data;
+                    saveData();
 
-                var upd = $scope.user.data.weather.updated;
-                if(updateWeather !== undefined){
-                    clearTimeout(updateWeather);
-                }
-
-                updateWeather = setTimeout(function(){getWeather()}, ((upd+600000*3)-Date.now()));
-                console.log('Get new weather in ' + Math.round(((upd+600000*3)-Date.now())/60000) + ' minutes.')
-            });
-    }
-
-    function getNews(){
-        if($scope.user.settings.news.updates){
-            newsService.getNewsData($scope.user).then(function(data){
-                $scope.user.data.news = data;
-                saveData();
-
-                var upd = $scope.user.data.news.updated;
-                if(updateNews !== undefined){
-                    clearTimeout(updateNews);
-                }
-
-                updateNews = setTimeout(function(){getNews()}, ((upd+600000)-Date.now()));
-                console.log('Get new news in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
-            })
+                    setWeatherUpdate()
+                });
+        } else {
+            setWeatherUpdate()
         }
     }
 
-    function getTravel(){
-        if($scope.user.settings.travel.updates){
-            travelService.getTravelInfo($scope.user).then(function(data){
-                if(data.travelAfterWork){
-                    $scope.travelAfterWork = true
-                } else {
-                    $scope.user.data.travel = data;
-                    saveData();
-                    $scope.travelAfterWork = false
-                }
+    function setWeatherUpdate(){
+        var upd = $rootScope.user.data.weather.updated;
+        if (updateWeather !== undefined) {
+            clearTimeout(updateWeather);
+        }
+
+        updateWeather = setTimeout(function () {getWeather()}, ((upd + 600500 * 3) - Date.now()));
+        console.log('Get new weather in ' + Math.round(((upd + 600000 * 3) - Date.now()) / 60000) + ' minutes.')
+    }
+
+    function getNews(){
+        if($rootScope.user.settings.news.updates && (Date.now() - $rootScope.user.data.news.updated) > 600000){
+            newsService.getNewsData($rootScope.user).then(function(data){
+                $rootScope.user.data.news = data;
+                saveData();
+
+                setNewsUpdate()
             })
+        } else {
+            setNewsUpdate()
+        }
+    }
+
+    function setNewsUpdate(){
+        var upd = $rootScope.user.data.news.updated;
+        if(updateNews !== undefined){
+            clearTimeout(updateNews);
+        }
+
+        updateNews = setTimeout(function(){getNews()}, ((upd+601000)-Date.now()));
+        console.log('Get new news in ' + Math.round(((upd+600000)-Date.now())/60000) + ' minutes.')
+    }
+
+    function getTravel(){
+        if($rootScope.user.settings.travel.updates){
+            userService.getLocation()
+                .then(function(loc){
+                    return travelService.getTravelInfo($rootScope.user, loc)
+                })
+                .then(function(data){
+                    if(data.travelAfterWork){
+                        $scope.travelAfterWork = true
+                    } else {
+                        $rootScope.user.data.travel = data;
+                        saveData();
+                        $scope.travelAfterWork = false
+                    }
+                })
         }
     }
 
     function getMovies(){
-        if($scope.user.settings.movies.theaters){
-            movieService.getTheaterMovies($scope.user).then(function(data){
-                $scope.user.data.movies.theater = data
+        if($rootScope.user.settings.movies.theater && (Date.now() - $rootScope.user.data.movies.theater.updated) > 86400000){
+            movieService.getTheaterMovies($rootScope.user).then(function(data){
+                $rootScope.user.data.movies.theater = data;
+                saveData()
             });
         }
-        if($scope.user.settings.movies.dvd) {
-            movieService.getDVDMovies($scope.user).then(function (data) {
-                $scope.user.data.movies.dvd = data
+        if($rootScope.user.settings.movies.dvd && (Date.now() - $rootScope.user.data.movies.dvd.updated) > 86400000) {
+            movieService.getDVDMovies($rootScope.user).then(function (data) {
+                $rootScope.user.data.movies.dvd = data;
+                saveData()
             })
         }
     }
 
 
     function saveData(){
-        $scope.user2 = $scope.user;
-        $scope.user2.$save();
+        userService.setUserData($rootScope.user);
+        $rootScope.user.$save();
     }
 
-    setTimeout(function(){userService.setTheme($scope.user.settings.theme); getWeather()}, 1000);
-    setTimeout(function(){getTravel();getNews();getMovies()}, 2000);
+    function firstRun(){
+        userService.setTheme($rootScope.user.settings.theme);
+        getWeather();
+        getTravel();
+        getNews();
+        getMovies();
+    }
+
+/*    setTimeout(function(){userService.setTheme($rootScope.user.settings.theme); getWeather()}, 1000);
+    setTimeout(function(){}, 2000);*/
 });

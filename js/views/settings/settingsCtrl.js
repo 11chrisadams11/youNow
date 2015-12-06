@@ -1,34 +1,44 @@
 angular.module('App')
 .controller('settingsCtrl', function($rootScope, $scope, userService, $state, fb, $firebaseObject){
-    var oldNews = JSON.parse(JSON.stringify($scope.user.settings.news));
-    var oldWeather = JSON.parse(JSON.stringify($scope.user.locations));
-    $scope.daysN = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday'};
 
-    /**
-     * Get user object from userService then set editing ability
-     */
-        console.log($scope.user)
-    if($scope.user === undefined || Object.keys($scope.user).length === 0){
-        userService.getUserData().then(function(user){
-            $scope.user = user;
-            $rootScope.days = $scope.user.settings.travel.days;
-            $scope.edit = {
-                home:$scope.user.locations.home.address === '',
-                work:$scope.user.locations.work.address === '',
-                travel:checkForHours(),
-                name:$scope.user.name === ''
-            };
-
-        });
+    if($rootScope.user === undefined || Object.keys($rootScope.user).length === 0){
+        $state.go('main');
+        /*userService.getLoggedInUser()
+            .then(function(id){
+                return userService.getUserObj(id[0])
+            })
+            .then(function(user){
+                $rootScope.user = user;
+                if("days" in $rootScope.user.settings.travel) {
+                    $rootScope.days = $rootScope.user.settings.travel.days;
+                } else {
+                    $rootScope.days = {0:{start:'', end:''}, 1:{start:'', end:''}, 2:{start:'', end:''}, 3:{start:'', end:''}, 4:{start:'', end:''}, 5:{start:'', end:''}, 6:{start:'', end:''}}
+                }
+                $scope.edit = { home: $rootScope.user.locations.home.address === '',
+                    work:$rootScope.user.locations.work.address === '',
+                    travel:checkForHours(),
+                    name:$rootScope.user.name === ''
+                };
+            });*/
     } else {
         $scope.edit = {
-            home:$scope.user.locations.home.address === '',
-            work:$scope.user.locations.work.address === '',
+            home:$rootScope.user.locations.home.address === '',
+            work:$rootScope.user.locations.work.address === '',
             travel:checkForHours(),
-            name:$scope.user.name === ''
+            name:$rootScope.user.name === ''
         };
-        $rootScope.days = $scope.user.settings.travel.days
+        if("days" in $rootScope.user.settings.travel) {
+            $rootScope.days = $rootScope.user.settings.travel.days;
+        } else {
+            $rootScope.days = {0:{start:'', end:''}, 1:{start:'', end:''}, 2:{start:'', end:''}, 3:{start:'', end:''}, 4:{start:'', end:''}, 5:{start:'', end:''}, 6:{start:'', end:''}}
+        }
+
+        var oldNews = JSON.parse(JSON.stringify($rootScope.user.settings.news));
+        var oldWeather = JSON.parse(JSON.stringify($rootScope.user.locations));
+        $scope.daysN = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday'};
     }
+
+
 
     /**
      * Checks each day if times are set
@@ -36,13 +46,13 @@ angular.module('App')
      */
     function checkForHours(){
         var i = {};
-        if("days" in $scope.user.settings.travel) {
+        if("days" in $rootScope.user.settings.travel) {
             for (var d = 0; d < 7; d++) {
-                i[d] = ($scope.user.settings.travel.days[d].start === '' && $scope.user.settings.travel.days[d].end === '')
+                i[d] = ($rootScope.user.settings.travel.days[d].start === '' && $rootScope.user.settings.travel.days[d].end === '')
             }
             return i
         } else {
-            return 7
+            return {0:true, 1:true, 2:true, 3:true, 4:true, 5:true, 6:true}
         }
     }
 
@@ -54,22 +64,24 @@ angular.module('App')
     $rootScope.settingsOK = function(){
         if($state.includes('settings')) {
             if($scope.details.home.formatted_address !== undefined && $scope.edit.home){
-                $scope.user.locations.home.address = $scope.details.home.formatted_address;
+                $rootScope.user.locations.home.address = $scope.details.home.formatted_address;
                 $scope.edit.home = false;
-            } else if (!$scope.edit.home || $scope.user.locations.home.address !== '') {
+            } else if (!$scope.edit.home || $rootScope.user.locations.home.address !== '') {
             } else {
-                $scope.user.locations.home.address = ''
+                $rootScope.user.locations.home.address = ''
             }
 
             if($scope.details.work.formatted_address !== undefined && $scope.edit.work){
-                $scope.user.locations.work.address = $scope.details.work.formatted_address;
+                $rootScope.user.locations.work.address = $scope.details.work.formatted_address;
                 $scope.edit.work = false
-            } else if (!$scope.edit.work || $scope.user.locations.home.address !== '') {
+            } else if (!$scope.edit.work || $rootScope.user.locations.home.address !== '') {
             } else {
-                $scope.user.locations.work.address = ''
+                $rootScope.user.locations.work.address = ''
             }
 
-            $scope.user.settings.travel.days = $rootScope.days;
+            if($rootScope.days !== undefined) {
+                $rootScope.user.settings.travel.days = $rootScope.days;
+            }
 
             var theme;
             if($('#theme').length === 0){
@@ -77,24 +89,21 @@ angular.module('App')
             } else {
                 theme = $('#theme').data('theme')
             }
-            $scope.user.settings.theme = theme;
+            $rootScope.user.settings.theme = theme;
 
-            userService.setUserData($scope.user);
+            userService.setUserData($rootScope.user);
 
-            console.log(isEquivalent(oldNews.categories, $scope.user.settings.news.categories))
-            if(!isEquivalent(oldNews.categories, $scope.user.settings.news.categories) || oldNews.updated !== $scope.user.settings.news.updated){
-                $scope.user.data.news.updated = 0;
+            if(!isEquivalent(oldNews.categories, $rootScope.user.settings.news.categories) || oldNews.updated !== $rootScope.user.settings.news.updated){
+                $rootScope.user.data.news.updated = 0;
             }
-            if(!isEquivalent(oldWeather.home, $scope.user.locations.home) || !isEquivalent(oldWeather.work, $scope.user.locations.work)){
-                $scope.user.data.weather.updated = 0;
+            if(!isEquivalent(oldWeather.home, $rootScope.user.locations.home) || !isEquivalent(oldWeather.work, $rootScope.user.locations.work)){
+                $rootScope.user.data.weather.updated = 0;
             }
 
-            if($scope.user.settings.firstTime){
-                $scope.user.settings.firstTime = false
+            if($rootScope.user.settings.firstTime){
+                $rootScope.user.settings.firstTime = false
             }
-            $scope.user2 = $scope.user;
-            console.log($scope.user2)
-            $scope.user2.$save();
+            $rootScope.user.$save();
         }
     };
 
