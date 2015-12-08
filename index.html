@@ -20,7 +20,9 @@
         <div class="hello" ng-if="user.name"><h2>Hello {{user.name.split(' ')[0]}}.</h2></div>
         <div class="hello" ng-if="!user.name"><h2>Welcome</h2></div>
         <div current-time id="time"></div>
+
         <div id="settingsOkButton" settings-ok-button ng-click="settingsOK()"></div>
+        <div class="glyphicon glyphicon-log-out" id="logout" ng-click="logout()"></div>
     </div>
     <div ui-view id="views"></div>
 </div>

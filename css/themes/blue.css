@@ -20,4 +20,7 @@ body {
   color: whitesmoke;
   text-indent: 5px; }
 
+#logo {
+  background-image: url("../../images/logo-light.png"); }
+
 /*# sourceMappingURL=blue.css.map */

@@ -42,6 +42,7 @@ angular.module('App')
 
     function getNews(){
         if($rootScope.user.settings.news.updates && (Date.now() - $rootScope.user.data.news.updated) > 600000){
+
             newsService.getNewsData($rootScope.user).then(function(data){
                 $rootScope.user.data.news = data;
                 saveData();
@@ -49,7 +50,9 @@ angular.module('App')
                 setNewsUpdate()
             })
         } else {
-            setNewsUpdate()
+            if($rootScope.user.settings.news.updates){
+                setNewsUpdate()
+            }
         }
     }
 

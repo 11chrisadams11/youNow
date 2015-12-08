@@ -39,9 +39,9 @@ angular.module('App')
                                     image = data[0].multimedia[3].url
                                 }
                                 return [e, {
-                                    title: decodeURIComponent(data[0].title),
+                                    title: data[0].title.replace('&#8217;', "'"),
                                     image: image,
-                                    text: data[0].abstract,
+                                    text: data[0].abstract.replace('&#8217;', "'"),
                                     url: data[0].url
                                 }];
 

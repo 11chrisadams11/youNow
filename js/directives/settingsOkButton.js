@@ -14,6 +14,10 @@ angular.module('App')
 
             setTimeout(load, 100);
 
+            $(element).on('click', function() {
+                $('#settingsPopup').stop(true, true).fadeIn(300);
+            });
+
             element.on('click', function(){
                 if($state.includes('main')){
                     element.removeClass('glyphicon-cog').addClass('glyphicon-ok');

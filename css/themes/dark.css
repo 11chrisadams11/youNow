@@ -15,4 +15,7 @@ body {
 .name {
   background-color: #1f1f1f; }
 
+#logo {
+  background: url("../../images/logo.png"); }
+
 /*# sourceMappingURL=dark.css.map */

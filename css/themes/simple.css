@@ -20,4 +20,7 @@ body {
 .name {
   background-color: white; }
 
+#logo {
+  background-image: url("../../images/logo-color.png"); }
+
 /*# sourceMappingURL=simple.css.map */

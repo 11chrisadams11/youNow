@@ -19,4 +19,7 @@ body {
   color: whitesmoke;
   text-indent: 5px; }
 
+#logo {
+  background: url("../../images/logo.png"); }
+
 /*# sourceMappingURL=orange.css.map */

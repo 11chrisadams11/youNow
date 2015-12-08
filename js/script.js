@@ -37,10 +37,25 @@ $(function($scope){
                 });
 
             }
-        })
+        });
 
     function rC(){
         return '#'+Math.floor(Math.random()*16777215).toString(16);
     }
+
+    $('#settingsOkButton').hover(function(){
+        if($(this).attr('class') === 'glyphicon glyphicon-cog'){
+            $('#logout').fadeIn(400)
+        }
+    }, function(){
+        $('#logout').delay(1000).fadeOut(500)
+    });
+
+    $('#logout').hover(function(){
+        $(this).stop(true,true).show()
+    }, function(){
+        $(this).delay(200).fadeOut(500)
+    })
+
 });
 
