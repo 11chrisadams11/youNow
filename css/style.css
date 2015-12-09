@@ -35,10 +35,12 @@
   font-size: 30px; }
 
 #hTime {
-  margin-right: 10px; }
+  margin-right: 10px;
+  margin-bottom: 5px; }
 
 #hDate {
-  margin-left: 10px; }
+  margin-left: 10px;
+  margin-bottom: 5px; }
 
 #settingsOkButton {
   font-size: 20px;
@@ -107,15 +109,27 @@ input[type="text"] {
 
 #settingsBody .title {
   font-size: 20px;
-  font-weight: bold; }
+  font-weight: bold;
+  display: block;
+  position: relative;
+  border: 0 solid #181818;
+  border-bottom-width: 1px;
+  margin-bottom: 5px; }
+
+#settingsBody .title:hover {
+  cursor: pointer; }
+
+.catArrow {
+  position: absolute;
+  right: 20px; }
 
 .data {
   margin-left: 20px; }
 
-.trTi.ng-hide-add, .trTi.ng-hide-remove, #newsCategories.ng-hide-add, #newsCategories.ng-hide-remove {
+.trTi.ng-hide-add, .trTi.ng-hide-remove, #newsCategories.ng-hide-add, #newsCategories.ng-hide-remove, .catInfo.ng-hide-add, .catInfo.ng-hide-remove {
   transition: all linear 0.25s; }
 
-.trTi.ng-hide, #newsCategories.ng-hide {
+.trTi.ng-hide, #newsCategories.ng-hide, .catInfo.ng-hide {
   line-height: 0;
   opacity: 0;
   padding: 0 0; }

@@ -21,6 +21,7 @@ body {
   text-indent: 5px; }
 
 #logo {
-  background-image: url("../../images/logo-light.png"); }
+  background-image: url("../../images/logo-light.png");
+  background-size: contain; }
 
 /*# sourceMappingURL=blue.css.map */

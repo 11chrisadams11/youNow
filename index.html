@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css">
     <link rel="stylesheet" href="css/jquery-ui.structure.min.css">
     <link rel="stylesheet" href="css/jquery-ui-timepicker-addon.min.css">
+    <link rel="stylesheet" href="css/animate.min.css"/>
     <link rel="stylesheet" href="css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Dancing+Script:400,700' rel='stylesheet' type='text/css'>
     <script src="js/vendor/jquery-2.1.4.js"></script>
     <script src="js/vendor/angular.js"></script>
 </head>
@@ -17,7 +19,7 @@
 <div class="mainContainer" ng-controller="headerCtrl">
     <div id="header">
         <div id="logo" ng-click="logout()"></div>
-        <div class="hello" ng-if="user.name"><h2>Hello {{user.name.split(' ')[0]}}.</h2></div>
+        <div class="hello" ng-if="user.name"><h2>{{greeting}} {{user.name.split(' ')[0]}}.</h2></div>
         <div class="hello" ng-if="!user.name"><h2>Welcome</h2></div>
         <div current-time id="time"></div>
 

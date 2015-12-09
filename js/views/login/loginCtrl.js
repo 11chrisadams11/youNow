@@ -21,7 +21,7 @@ angular.module('App')
                         $rootScope.user.$save();
                         var jum = $('#header').outerHeight();
                         $('#settingsOkButton').addClass("glyphicon glyphicon-ok").css({
-                            'top': jum + 20,
+                            'top': jum + 10,
                             'font-size': 40
                         });
                         $state.go('settings')

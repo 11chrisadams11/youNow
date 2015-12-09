@@ -2,89 +2,122 @@
 <h2>Settings</h2>
 
 <div id="settingsBody">
-    <span class="title">Display Name:</span>
+    <div id="settingsName" class="settingsGroups">
+        <div class="title" ng-init="openName=true" ng-click="openName=!openName">
+            <span>Display Name:</span>
+            <div class="glyphicon glyphicon-menu-up catArrow" ng-show="openName"></div>
+            <div class="glyphicon glyphicon-menu-down catArrow" ng-show="!openName"></div>
+        </div>
 
-    <div ng-if="edit.name" class="data">
-        <input ng-model="user.name" type="text" placeholder="Display Name">
-    </div>
-    <div ng-if="!edit.name" class="data">
-        {{user.name}} <span class="glyphicon glyphicon-edit" ng-click="edit.name=true"></span>
+        <div ng-show="openName" class="catInfo">
+            <div ng-if="edit.name" class="data">
+                <input ng-model="user.name" type="text" placeholder="Display Name">
+            </div>
+            <div ng-if="!edit.name" class="data">
+                {{user.name}} <span class="glyphicon glyphicon-edit" ng-click="edit.name=true"></span>
+            </div>
+        </div>
     </div>
 
     <div id="settingsLocations" class="settingsGroups">
-        <span class="title">Home Address:</span>
-
-        <div ng-if="edit.home" class="data">
-            <input ng-model="user.locations.home.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.home">
-        </div>
-        <div ng-if="!edit.home" class="data">
-            {{user.locations.home.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.home=true"></span>
-        </div>
-        <div ng-show="user.locations.home.address" class="data">
-            <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
+        <div class="title" ng-init="openLoc=true" ng-click="openLoc=!openLoc">
+            <span>Addresses</span>
+            <div class="glyphicon glyphicon-menu-up catArrow" ng-show="openLoc"></div>
+            <div class="glyphicon glyphicon-menu-down catArrow" ng-show="!openLoc"></div>
         </div>
 
-        <span class="title">Work Address:</span>
+        <div ng-show="openLoc" class="catInfo">
+            <span>Home:</span>
+            <div ng-if="edit.home" class="data">
+                <input ng-model="user.locations.home.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.home">
+            </div>
+            <div ng-if="!edit.home" class="data">
+                {{user.locations.home.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.home=true"></span>
+            </div>
+            <div ng-show="user.locations.home.address" class="data">
+                <p>Get weather updates <input type="checkbox" ng-model="user.locations.home.weatherUpdates"></p>
+            </div>
 
-        <div ng-if="edit.work" class="data">
-            <input ng-model="user.locations.work.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.work">
-        </div>
+            <span>Work:</span>
 
-        <div ng-if="!edit.work" class="data">
-            {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
-        </div>
+            <div ng-if="edit.work" class="data">
+                <input ng-model="user.locations.work.address" ng-autocomplete type="text" placeholder="Full address or just zip for weather" details="details.work">
+            </div>
 
-        <div ng-show="user.locations.work.address" class="data">
-            <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
-            <p ng-show="user.locations.work.address && user.locations.home.address">Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
-            <div ng-show="user.settings.travel.updates && user.locations.work.address && user.locations.home.address" class="trTi">
-                <span>Work Hours</span> <span class="glyphicon glyphicon-edit" ng-click="edit.travel=true" ng-if="!edit.travel"></span>
-                <div id="workTimes">
-                    <time-picker ng-repeat="(d,n) in daysN" day="{{d}}"></time-picker>
+            <div ng-if="!edit.work" class="data">
+                {{user.locations.work.address}} <span class="glyphicon glyphicon-edit" ng-click="edit.work=true"></span>
+            </div>
+
+            <div ng-show="user.locations.work.address" class="data">
+                <p>Get weather updates <input type="checkbox" ng-model="user.locations.work.weatherUpdates"></p>
+                <p ng-show="user.locations.work.address && user.locations.home.address">Get travel times <input type="checkbox" ng-model="user.settings.travel.updates"></p>
+                <div ng-show="user.settings.travel.updates && user.locations.work.address && user.locations.home.address" class="trTi">
+                    <span>Work Hours</span> <span class="glyphicon glyphicon-edit" ng-click="edit.travel=true" ng-if="!edit.travel"></span>
+                    <div id="workTimes">
+                        <time-picker ng-repeat="(d,n) in daysN" day="{{d}}"></time-picker>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="settingsNews" class="settingsGroups">
-        <span class="title">News:</span>
+        <div class="title" ng-init="openNews=true" ng-click="openNews=!openNews">
+            <span>News:</span>
+            <div class="glyphicon glyphicon-menu-up catArrow" ng-show="openNews"></div>
+            <div class="glyphicon glyphicon-menu-down catArrow" ng-show="!openNews"></div>
+        </div>
 
-        <p class="data">Get news updates <input type="checkbox" ng-model="user.settings.news.updates"></p>
-        <div id="newsCategories" ng-show="user.settings.news.updates">
-            <div class="data">Updates for:
-                <div id="newsPicker">
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.home"> U.S.</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.world"> World</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.politics"> Politics</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.business"> Business</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.opinion"> Opinion</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.technology"> Technology</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.health"> Health</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.sports"> Sports</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.arts"> Arts</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.fashion"> Fashion</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.dining"> Dining</p>
-                    <p><input type="checkbox" ng-model="user.settings.news.categories.travel"> Travel</p>
+        <div ng-show="openNews" class="catInfo">
+            <p class="data">Get news updates <input type="checkbox" ng-model="user.settings.news.updates"></p>
+            <div id="newsCategories" ng-show="user.settings.news.updates">
+                <div class="data">Updates for:
+                    <div id="newsPicker">
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.home"> U.S.</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.world"> World</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.politics"> Politics</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.business"> Business</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.opinion"> Opinion</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.technology"> Technology</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.health"> Health</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.sports"> Sports</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.arts"> Arts</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.fashion"> Fashion</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.dining"> Dining</p>
+                        <p><input type="checkbox" ng-model="user.settings.news.categories.travel"> Travel</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="settingsMovies" class="settingsGroups">
-        <span class="title">Movies:</span>
-        <div class="data">
+        <div class="title" ng-init="openMovies=true" ng-click="openMovies=!openMovies">
+            <span>Movies:</span>
+            <div class="glyphicon glyphicon-menu-up catArrow" ng-show="openMovies"></div>
+            <div class="glyphicon glyphicon-menu-down catArrow" ng-show="!openMovies"></div>
+        </div>
+
+        <div class="data catInfo" ng-show="openMovies">
             <p>Get movies opening in theaters <input type="checkbox" ng-model="user.settings.movies.theater"></p>
             <p>Get movies released on DVD <input type="checkbox" ng-model="user.settings.movies.dvd"></p>
         </div>
     </div>
 
     <div id="settingsTheme" class="settingsGroups">
-        <p class="title">Theme:</p>
-        <div class="themeButton default" data-theme="default"><div class="hdr">Default</div><div class="crd"><div class="ttl"></div></div></div>
-        <div class="themeButton dark" data-theme="dark"><div class="hdr">Dark</div><div class="crd"><div class="ttl"></div></div></div>
-        <div class="themeButton blue" data-theme="blue"><div class="hdr">Blue</div><div class="crd"><div class="ttl"></div></div></div>
-        <div class="themeButton orange" data-theme="orange"><div class="hdr">Orange</div><div class="crd"><div class="ttl"></div></div></div>
-        <div class="themeButton simple" data-theme="simple"><div class="hdr">Simple</div><div class="crd"><div class="ttl"></div></div></div>
+        <div class="title" ng-init="openTheme=true" ng-click="openTheme=!openTheme">
+            <span>Theme:</span>
+            <div class="glyphicon glyphicon-menu-up catArrow" ng-show="openTheme"></div>
+            <div class="glyphicon glyphicon-menu-down catArrow" ng-show="!openTheme"></div>
+        </div>
+
+        <div class="catInfo" ng-show="openTheme">
+            <div class="themeButton default" data-theme="default"><div class="hdr">Default</div><div class="crd"><div class="ttl"></div></div></div>
+            <div class="themeButton dark" data-theme="dark"><div class="hdr">Dark</div><div class="crd"><div class="ttl"></div></div></div>
+            <div class="themeButton blue" data-theme="blue"><div class="hdr">Blue</div><div class="crd"><div class="ttl"></div></div></div>
+            <div class="themeButton orange" data-theme="orange"><div class="hdr">Orange</div><div class="crd"><div class="ttl"></div></div></div>
+            <div class="themeButton simple" data-theme="simple"><div class="hdr">Simple</div><div class="crd"><div class="ttl"></div></div></div>
+        </div>
     </div>
 </div>
 </div>

@@ -16,6 +16,7 @@ body {
   background-color: #1f1f1f; }
 
 #logo {
-  background: url("../../images/logo.png"); }
+  background-image: url("../../images/logo.png");
+  background-size: contain; }
 
 /*# sourceMappingURL=dark.css.map */
