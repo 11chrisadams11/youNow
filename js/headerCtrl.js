@@ -1,23 +1,10 @@
 angular.module('App')
-.controller('headerCtrl', function($rootScope, $scope, userService, $q, fb, $firebaseObject){
+.controller('headerCtrl', function($rootScope, $scope, userService){
 
-/*    if($rootScope.user === undefined || Object.keys($rootScope.user).length === 0) {
-        userService.getLoggedInUser()
-            .then(function (idArr) {
-                return userService.checkIfUserExistsInDB(idArr[0], idArr[1])
-            })
-            .then(function (id) {
-                return userService.getFirebaseObj(id)
-            })
-            .then(function (user) {
-                $rootScope.user = user;
-                $rootScope.user2 = user
-            });
-    }*/
     $scope.greeting = getGreeting();
 
     function getGreeting(){
-        var time = new Date(Date.now()).getHours()
+        var time = new Date(Date.now()).getHours();
         if(time < 5){
             return 'WTF are you doing awake'
         }else if(time >= 5 && time < 12){

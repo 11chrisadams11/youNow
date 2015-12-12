@@ -9,6 +9,7 @@ angular.module('App')
             })
             .then(function(user){
                 $rootScope.user = user;
+                $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
                 $timeout(function(){firstRun()}, 2000)
 
             });
@@ -85,13 +86,13 @@ angular.module('App')
     }
 
     function getMovies(){
-        if($rootScope.user.settings.movies.theater && (Date.now() - $rootScope.user.data.movies.theater.updated) > 86400000){
+        if($rootScope.user.settings.movies.theater && (Date.now() - $rootScope.user.data.movies.theater.updated) > 3600000){
             movieService.getTheaterMovies($rootScope.user).then(function(data){
                 $rootScope.user.data.movies.theater = data;
                 saveData()
             });
         }
-        if($rootScope.user.settings.movies.dvd && (Date.now() - $rootScope.user.data.movies.dvd.updated) > 86400000) {
+        if($rootScope.user.settings.movies.dvd && (Date.now() - $rootScope.user.data.movies.dvd.updated) > 3600000) {
             movieService.getDVDMovies($rootScope.user).then(function (data) {
                 $rootScope.user.data.movies.dvd = data;
                 saveData()
@@ -112,7 +113,4 @@ angular.module('App')
         getNews();
         getMovies();
     }
-
-/*    setTimeout(function(){userService.setTheme($rootScope.user.settings.theme); getWeather()}, 1000);
-    setTimeout(function(){}, 2000);*/
 });

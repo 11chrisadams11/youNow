@@ -20,14 +20,18 @@ angular.module('App')
                         $rootScope.user.settings.firstTime = false;
                         $rootScope.user.$save();
                         var jum = $('#header').outerHeight();
-                        $('#settingsOkButton').addClass("glyphicon glyphicon-ok").css({
+                        $('#settingsOkButton').removeClass('glyphicon-cog').addClass("glyphicon glyphicon-ok").css({
                             'top': jum + 10,
                             'font-size': 40
                         });
                         $state.go('settings')
                     } else {
-                        $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
-                        $state.go('main')
+                        $('#loginMain').html('<img src="images/loading.gif">');
+                        $timeout(function(){
+                            $('#settingsOkButton').addClass("glyphicon glyphicon-cog");
+                            $state.go('main')
+                        }, 1000)
+
                     }
                 }, 500)
             });

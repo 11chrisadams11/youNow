@@ -154,30 +154,28 @@ angular.module('App')
                 nameColors = {default: '#fbfbfb', dark: '#1f1f1f', blue: '#03a9f4', orange: '#ff5722', simple: '#ffffff'},
                 nameFontColors = {default: '#000000', dark: 'whitesmoke', blue: 'whitesmoke', orange: 'whitesmoke', simple: '#000000'};
 
-            if(theme !== 'default'){
-                $('body').animate({
-                    'background-color': bgColors[theme],
-                    'color': bgFontColors[theme]
-                });
-                $('.card').animate({
-                    'background-color': cardColors[theme],
-                    'color': cardFontColors[theme]
-                });
-                $('.name').animate({
-                    'background-color': nameColors[theme],
-                    'color': nameFontColors[theme]
-                });
-                $('#header').animate({
-                    'background-color': headerColors[theme],
-                    'color': headerFontColors[theme],
-                    'box-shadow': shadow[theme]
-                }, function () {
+
+            $('body').animate({
+                'background-color': bgColors[theme],
+                'color': bgFontColors[theme]
+            });
+            $('.card').animate({
+                'background-color': cardColors[theme],
+                'color': cardFontColors[theme]
+            });
+            $('.name').animate({
+                'background-color': nameColors[theme],
+                'color': nameFontColors[theme]
+            });
+            $('#header').animate({
+                'background-color': headerColors[theme],
+                'color': headerFontColors[theme],
+                'box-shadow': shadow[theme]
+            }, function () {
+                if(theme !== 'default') {
                     $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
-                });
-            }
-           /* if(theme !== 'default'){
-                $('head').append('<link href="css/themes/' + theme + '.css" rel="stylesheet" id="theme" data-theme="' + theme + '" />')
-            }*/
+                }
+            });
         };
 
         /**
@@ -215,7 +213,7 @@ angular.module('App')
         this.loginWith = function (service) {
             return $q(function (resolve) {
                 authObj = $firebaseAuth(new Firebase(fb.url + 'user/'));
-                authObj.$authWithOAuthPopup(service)
+                authObj.$authWithOAuthPopup(service, {prompt: 'select_account'})
                     .then(function (authData) {
                         var id = (authData[authData.provider].id);
                         var name = (authData[authData.provider].displayName);

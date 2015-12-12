@@ -2,7 +2,6 @@ angular.module('App')
     .service('newsService', function ($http, $q, userService, fb, $firebaseAuth, $firebaseObject) {
         var url1 = 'http://api.nytimes.com/svc/topstories/v1/',
             url2 = '.json?api-key=560ff7584fa9434472a064377ae35c0b:3:70264294',
-        //categories = ['home', 'technology', 'arts', 'sports', 'health'],
             user = {
                 data: {
                     news: {}
@@ -32,18 +31,25 @@ angular.module('App')
                                 url: url1 + e + url2
                             }).then(function (res) {
                                 var data = res.data.results,
-                                    image = '';
-                                if (res.data.results[0].multimedia === '') {
-                                    image = ''
-                                } else {
-                                    image = data[0].multimedia[3].url
+                                    image = '',
+                                    o = {};
+
+                                for(var i=0; i<10; i++){
+                                    if (res.data.results[i].multimedia === '') {
+                                        image = ''
+                                    } else {
+                                        image = data[i].multimedia[3].url
+                                    }
+
+                                    o[i] = {
+                                        title: data[i].title.replace('&#8217;', "'"),
+                                        image: image,
+                                        text: data[i].abstract.replace('&#8217;', "'"),
+                                        url: data[i].url
+                                    }
                                 }
-                                return [e, {
-                                    title: data[0].title.replace('&#8217;', "'"),
-                                    image: image,
-                                    text: data[0].abstract.replace('&#8217;', "'"),
-                                    url: data[0].url
-                                }];
+
+                                return [e, o];
 
                             });
                         promise.push(r)

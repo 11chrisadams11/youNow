@@ -1,7 +1,13 @@
 angular.module('App')
-    .service('weatherService', function ($http, $q, userService, fb, $firebaseAuth, $firebaseObject) {
+    .service('weatherService', function ($http, $q) {
         var url = 'http://api.wunderground.com/api/c5e9d80d2269cb64/conditions/forecast10day/';
 
+        /**
+         * Checks user addresses and sends formatted info to function goGet()
+         *
+         * @param user {object} User object
+         * @returns {object} Weather data object
+         */
         this.getCurrentWeather = function(user) {
             return $q(function (resolve) {
                 var w = {},
@@ -43,7 +49,14 @@ angular.module('App')
             })
         };
 
-
+        /**
+         * Receives location data from function getCurrentWeather(), then gets url from function getLocation(),
+         * then calls function getWeather()
+         *
+         * @param where {string} Address or 'local'
+         * @param name {string} Name of location being searched for
+         * @returns {object} Weather data for called location
+         */
         function goGet(where, name) {
             return $q(function (resolve) {
                 getLocation(where).then(function (url) {
@@ -55,6 +68,12 @@ angular.module('App')
 
         }
 
+        /**
+         * Gets address from function goGet() then gets location and url
+         *
+         * @param where {string} Address or 'local'
+         * @returns {string} URL for weather API
+         */
         function getLocation(where) {
             return $q(function (resolve) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -74,6 +93,13 @@ angular.module('App')
             })
         }
 
+        /**
+         * Gets URL and name from function goGet(), then gets data from API
+         *
+         * @param url {string} URL for location
+         * @param name {string} Name of location
+         * @returns {object} Weather data for location
+         */
         function getWeather(url, name) {
             return $http({
                 method: 'GET',
